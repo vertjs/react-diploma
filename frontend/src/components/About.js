@@ -2,13 +2,13 @@ import React from 'react'
 
 export default function About() {
     return (
-        <section className= "container top-sales">
-            <h2 className="text-center">О магазине</h2>
+        <section className= 'container top-sales'>
+            <h2 className='text-center'>О магазине</h2>
             <p>
                 В Интернете можно встретить немало магазинов, предлагающих аксессуары. Но именно к нам хочется
                 возвращаться снова и снова.
             </p>
-            <h3 className="h4 text-center">Мы предлагаем вам особые условия:</h3>
+            <h3 className='h4 text-center'>Мы предлагаем вам особые условия:</h3>
                 <ol>
                     <li>Индивидуальный подход специалиста. Когда поступает новая коллекция обуви весна-лето или
                         же коллекция обуви осень-зима – покупателям бывает трудно сориентироваться во всем
