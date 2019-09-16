@@ -13,11 +13,11 @@ export default function App() {
     <Router>
       <Menu />
         <Switch>
-          <Route path="/" exact component={HeadPage} />
-          <Route path="/catalog" component={Catalog} />
-          <Route path="/about" component={About} />
-          <Route path="/contacts" component={Contacts} />
-          <Route path="*" component={Page404} />
+          <Route path='/' exact component={HeadPage} />
+          <Route path='/catalog' component={Catalog} />
+          <Route path='/about' component={About} />
+          <Route path='/contacts' component={Contacts} />
+          <Route path='*' component={Page404} />
         </Switch>
       <Footer/>
     </Router>
