@@ -101,7 +101,7 @@ export default function Catalog(props) {
                 <button className="btn btn-outline-primary">Загрузить ещё</button>
             </div>
         </section>
-    )
+    );
 }
 
 Catalog.propTypes = {

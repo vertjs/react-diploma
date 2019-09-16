@@ -5,7 +5,7 @@ import {NavLink} from 'react-router-dom'
 
 export default function Menu() {
    
-    const henderClick = (evt) => {
+    const henderClick = () => {
         const searchFormEl = document.querySelector('[data-id=search-form]')
         searchFormEl.classList.toggle('invisible')
         searchFormEl.querySelector('input').focus()    
@@ -64,5 +64,5 @@ export default function Menu() {
                     </div>
                 </main>
         </Fragment>
-  );
+    );
 }

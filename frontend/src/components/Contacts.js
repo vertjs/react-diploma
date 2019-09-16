@@ -1,8 +1,6 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import {NavLink} from 'react-router-dom'
 
-export default function Contacts(props) {
+export default function Contacts() {
     return (
         <section className="container top-sales">
             <h2 className="text-center">Контакты</h2>
@@ -15,9 +13,5 @@ export default function Contacts(props) {
                 <a href="mailto:office@bosanoga.ru">office@bosanoga.ru</a>
             </p>
     </section>
-    )
-}
-
-Contacts.propTypes = {
-
+    );
 }

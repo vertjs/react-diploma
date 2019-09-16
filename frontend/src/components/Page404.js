@@ -1,17 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-function Page404(props) {
+export default function Page404() {
     return (
         <section className="container top-sales">
            Страница не найдена
         </section>
-    )
+    );
 }
-
-Page404.propTypes = {
-
-}
-
-export default Page404
-
