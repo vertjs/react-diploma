@@ -24,7 +24,7 @@ export default function Footer() {
                 </div>
                 <div className="col">
                     <section>
-                        <h3>Принимаем к оплате:</h3>
+                        <h5>Принимаем к оплате:</h5>
                             <div className="footer-pay">
                                 <div className="footer-pay-systems footer-pay-systems-paypal"></div>
                                 <div className="footer-pay-systems footer-pay-systems-master-card"></div>
@@ -44,9 +44,9 @@ export default function Footer() {
                 <div className="col text-right">
                     <section className="footer-contacts">
                         <h5>Контакты:</h5>
-                            <NavLink to='/tel:+7-495-790-35-03' exact className="footer-contacts-phone">+7 495 79 03 5 03</NavLink>
+                            <a className="footer-contacts-phone" href="tel:+7-495-790-35-03">+7 495 79 03 5 03</a>
                             <span className="footer-contacts-working-hours">Ежедневно: с 09-00 до 21-00</span>
-                            <NavLink to='/mailto:office@bosanoga.ru' exact className="footer-contacts-email">office@bosanoga.ru</NavLink>
+                            <a class="footer-contacts-email" href="mailto:office@bosanoga.ru">office@bosanoga.ru</a>
                             <div className="footer-social-links">
                                 <div className="footer-social-link footer-social-link-twitter"></div>
                                 <div className="footer-social-link footer-social-link-vk"></div>
