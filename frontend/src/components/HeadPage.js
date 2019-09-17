@@ -1,4 +1,5 @@
 import React, {Fragment} from 'react'
+import Bestsellers from './Bestsellers'
 
 export default function HeadPage() {
     return (
@@ -6,12 +7,7 @@ export default function HeadPage() {
             <section className='top-sales'>
                 <h2 className='text-center'>Хиты продаж!</h2>
 
-                <div className='preloader'>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+                <Bestsellers/>
             </section>
 
             <section className='catalog'>
