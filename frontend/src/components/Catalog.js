@@ -1,34 +1,50 @@
-import React from 'react'
+import React, {useEffect}  from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
+import { fetchCategories } from '../actions/actionCreators'
+import { useSelector, useDispatch } from 'react-redux'
 
-export default function Catalog(props) {
+export default function Catalog() {
+    const {items, loading, error} = useSelector(state => state.serviceCategories);
+    const dispatch = useDispatch();
+  
+    useEffect(() => { // получение данных с сервера
+      dispatch(fetchCategories())
+    }, [dispatch])
+
+    if (loading) {
+        return (
+            <div className='preloader'>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        );
+    }
+
+    if (error) {
+        console.log(error);
+        return <p>Something went wrong try again</p>;
+    }
+
     return (
         <section className='container catalog'>
             <h2 className='text-center'>Каталог</h2>
 
-            <form className='catalog-search-form form-inline'>
-                <input className='form-control' placeholder='Поиск'/>
-            </form>
-
-            <ul className='catalog-categories nav justify-content-center'>
+           <ul className='catalog-categories nav justify-content-center'>
                 <li className='nav-item'>
                     <NavLink to='#' exact className='nav-link active'>Все</NavLink>
                 </li>
-                <li className='nav-item'>
-                    <NavLink to='#' exact className='nav-link'>Женская обувь</NavLink>
-                </li>
-                <li className='nav-item'>
-                    <NavLink to='#' exact className='nav-link'>Мужская обувь</NavLink>
-                </li>
-                <li className='nav-item'>
-                    <NavLink to='#' exact className='nav-link'>Обувь унисекс</NavLink>
-                </li>
-                <li className='nav-item'>
-                    <NavLink to='#' exact className='nav-link'>Детская обувь</NavLink>
-                </li>
+                {items.map(o => (
+                    <li className='nav-item' key={o.id}>
+                        <a href='#' className='nav-link' >{o.title}</a>
+                    </li>
+                ))}
             </ul>
 
+
+            
             <div className='row'>
                 <div className='col-4'>
                     <div className='card catalog-item-card'>
@@ -103,8 +119,3 @@ export default function Catalog(props) {
         </section>
     );
 }
-
-Catalog.propTypes = {
-
-}
-

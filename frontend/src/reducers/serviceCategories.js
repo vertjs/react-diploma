@@ -1,7 +1,7 @@
 import {
-    FETCH_BESTSALES_REQUEST,
-    FETCH_BESTSALES_FAILURE,
-    FETCH_BESTSALES_SUCCESS
+    FETCH_CATEGORIES_REQUEST,
+    FETCH_CATEGORIES_FAILURE,
+    FETCH_CATEGORIES_SUCCESS
 
 } from '../actions/actionTypes'
 
@@ -11,16 +11,17 @@ const initialState = {
     error: null,
 }
 
-export default function serviceListReducer(state = initialState, action) {
+
+export default function serviceCategoriesReducer(state = initialState, action) {
     switch (action.type) {
-      case FETCH_BESTSALES_REQUEST:
+      case FETCH_CATEGORIES_REQUEST:
         return {
           ...state,
           loading: true,
           error: null,
         };
   
-      case FETCH_BESTSALES_FAILURE:
+      case FETCH_CATEGORIES_FAILURE:
         const {error} = action.payload;
         return {
           ...state,
@@ -28,7 +29,7 @@ export default function serviceListReducer(state = initialState, action) {
           error,
         };
   
-      case FETCH_BESTSALES_SUCCESS:
+      case FETCH_CATEGORIES_SUCCESS:
         const {items} = action.payload;
         return {
           ...state,
@@ -36,7 +37,7 @@ export default function serviceListReducer(state = initialState, action) {
           loading: false,
           error: null,
         };
-
+  
       default:
         return state;
     }

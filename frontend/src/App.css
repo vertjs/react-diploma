@@ -564,3 +564,13 @@ h2, .h2 {
   background-color: #727e86;
   border-color: #727e86;
 }
+
+.img-fluid {
+  display: inline-block;
+}
+
+.card {
+ /* height: 66vh;*/
+  min-height: 354px;
+}
+
