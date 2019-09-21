@@ -1,16 +1,24 @@
-import React, {useEffect}  from 'react'
+import React, {useEffect, Fragment, useState}  from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
-import { fetchCategories } from '../actions/actionCreators'
+import { fetchCategories, fetchDataCategories } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function Catalog() {
-    const {items, loading, error} = useSelector(state => state.serviceCategories);
-    const dispatch = useDispatch();
-  
-    useEffect(() => { // получение данных с сервера
-      dispatch(fetchCategories())
+    const {items, loading, error} = useSelector(state => state.serviceCategories)
+    const {data, load, err} = useSelector(state => state.serviceDataCategories)
+    const dispatch = useDispatch()
+    const [id, setData] = useState({id: null})
+
+    function handleClick(id) {
+        dispatch(fetchDataCategories(id)) // получение данных каталога с сервера 
+        setData({id: id})  
+    }
+
+    useEffect(() => { 
+        dispatch(fetchCategories()) // получение заголовков с сервера
     }, [dispatch])
+  
 
     if (loading) {
         return (
@@ -38,84 +46,31 @@ export default function Catalog() {
                 </li>
                 {items.map(o => (
                     <li className='nav-item' key={o.id}>
-                        <a href='#' className='nav-link' >{o.title}</a>
+                        <p className='nav-link' onClick={() => handleClick(o.id)}>{o.title}</p>
                     </li>
                 ))}
             </ul>
-
-
-            
-            <div className='row'>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/93/06/52/12930652_13567910_1000.jpg'
-                            className='card-img-top img-fluid' alt='Босоножки MYER'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Босоножки 'MYER'</p>
-                            <p className='card-text'>34 000 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
+            {data && 
+                (<Fragment>
+                    <div className='row'>
+                            {data.map(o => (
+                                <div className='col-4' key={o.id}>
+                                    <div className='card catalog-item-card'>
+                                        <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title}/>
+                                        <div className='card-body'>
+                                            <p className='card-text'>{o.title}</p>
+                                            <p className='card-text'>{o.price} руб.</p>
+                                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                     </div>
-                </div>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/94/66/72/12946672_13518465_1000.jpg'
-                            className='card-img-top img-fluid' alt='Босоножки Keira'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Босоножки 'Keira'</p>
-                            <p className='card-text'>7 600 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
+                    <div className='text-center'>
+                        <button className='btn btn-outline-primary'>Загрузить ещё</button>
                     </div>
-                </div>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/99/04/32/12990432_13705715_1000.jpg'
-                            className='card-img-top img-fluid' alt='Супергеройские кеды'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Супергеройские кеды</p>
-                            <p className='card-text'>1 400 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/93/06/52/12930652_13567910_1000.jpg'
-                            className='card-img-top img-fluid' alt='Босоножки MYER'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Босоножки 'MYER'</p>
-                            <p className='card-text'>34 000 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/94/66/72/12946672_13518465_1000.jpg'
-                            className='card-img-top img-fluid' alt='Босоножки Keira'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Босоножки 'Keira'</p>
-                            <p className='card-text'>7 600 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
-                    </div>
-                </div>
-                <div className='col-4'>
-                    <div className='card catalog-item-card'>
-                        <img src='https://cdn-images.farfetch-contents.com/12/99/04/32/12990432_13705715_1000.jpg'
-                            className='card-img-top img-fluid' alt='Супергеройские кеды'/>
-                        <div className='card-body'>
-                            <p className='card-text'>Супергеройские кеды</p>
-                            <p className='card-text'>1 400 руб.</p>
-                            <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className='text-center'>
-                <button className='btn btn-outline-primary'>Загрузить ещё</button>
-            </div>
+                </Fragment>)
+            }
         </section>
     );
 }

@@ -6,11 +6,13 @@ import {
   } from 'redux'
 import serviceListReducer from '../reducers/serviceList'
 import serviceCategoriesReducer from '../reducers/serviceCategories'
+import serviceDataCategories from '../reducers/serviceDataCategories'
 import thunk from 'redux-thunk'
   
 const reducer = combineReducers({
     serviceList: serviceListReducer,
-    serviceCategories: serviceCategoriesReducer
+    serviceCategories: serviceCategoriesReducer,
+    serviceDataCategories: serviceDataCategories
 });
   
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
