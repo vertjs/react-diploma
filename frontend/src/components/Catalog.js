@@ -56,7 +56,7 @@ export default function Catalog() {
                             {data.map(o => (
                                 <div className='col-4' key={o.id}>
                                     <div className='card catalog-item-card'>
-                                        <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title}/>
+                                        <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} style={{ width: '100%', height: 200, objectFit: 'cover'}}/>
                                         <div className='card-body'>
                                             <p className='card-text'>{o.title}</p>
                                             <p className='card-text'>{o.price} руб.</p>
