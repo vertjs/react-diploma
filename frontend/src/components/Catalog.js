@@ -11,8 +11,9 @@ export default function Catalog() {
     const [index, setIndex] = useState(null)
     const offset = '&offset=6'
 
-    function handleClick(id) {
-        console.log(id)
+    function handleClick(evt, id) {
+        [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))
+        evt.target.classList.add('active')
         dispatch(fetchDataCategories(id)) // загрузка данных каталога с сервера по клику
         setIndex(id)
     }
@@ -49,11 +50,11 @@ export default function Catalog() {
 
             <ul className='catalog-categories nav justify-content-center'>
                 <li className='nav-item'>
-                    <p className='nav-link active' onClick={() => handleClick()}>Все</p>
+                    <p className='nav-link active' onClick={(evt) => handleClick(evt)}>Все</p>
                 </li>
                 {items.map(o => (
                     <li className='nav-item' key={o.id}>
-                        <p className='nav-link' onClick={() => handleClick(o.id)}>{o.title}</p>
+                        <p className='nav-link' onClick={(evt) => handleClick(evt, o.id)}>{o.title}</p>
                     </li>
                 ))}
             </ul>
@@ -73,9 +74,10 @@ export default function Catalog() {
                             </div>
                         ))}
                     </div>
+                    {data.length === 6 &&
                     <div className='text-center'>
                         <button className='btn btn-outline-primary' onClick={() => yetClick()}>Загрузить ещё</button>
-                    </div>
+                    </div>}
                 </Fragment>)
             }
         </section>

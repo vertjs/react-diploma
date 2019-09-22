@@ -115,6 +115,7 @@ export const fetchDataCategories = (id=false, offset=false) => async (dispatch) 
   } else if(id && offset) {
     try {
       const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
+      console.log(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
       if (!response.ok) {
         throw new Error(response.statusText);
       }
@@ -127,7 +128,6 @@ export const fetchDataCategories = (id=false, offset=false) => async (dispatch) 
     }
   }
   else if(!id && !offset){
-    console.log(id)
     try {
       const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL}`);
    
