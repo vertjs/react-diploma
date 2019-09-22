@@ -98,24 +98,36 @@ export const fetchCategories = () => async (dispatch) => { // получение
 };
 
 
-export const fetchDataCategories = (id=false) => async (dispatch) => { // получение с сервера каталога продаж
+export const fetchDataCategories = (id=false, offset=false) => async (dispatch) => { // получение с сервера каталога продаж
   dispatch(fetchDataCategoriesRequest());
-  if(id) {
+  if(id && !offset) {
     try {
-      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id}`);
-     
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id}`)
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json()
+      dispatch(fetchDataCategoriesSuccess(data));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchDataCategoriesFailure(error.message));
+    }
+  } else if(id && offset) {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
       if (!response.ok) {
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      
+      console.log(data);
       dispatch(fetchDataCategoriesSuccess(data));
     } catch (error) {
       console.log(error);
       dispatch(fetchDataCategoriesFailure(error.message));
     }
   }
-  else {
+  else if(!id && !offset){
+    console.log(id)
     try {
       const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL}`);
    
@@ -124,6 +136,22 @@ export const fetchDataCategories = (id=false) => async (dispatch) => { // пол
       }
       const data = await response.json();
      
+      dispatch(fetchDataCategoriesSuccess(data));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchDataCategoriesFailure(error.message));
+    }
+  }
+  else if(!id && offset){
+    console.log(id)
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?' + offset}`);
+   
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      console.log(data)
       dispatch(fetchDataCategoriesSuccess(data));
     } catch (error) {
       console.log(error);
