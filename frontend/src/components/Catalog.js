@@ -3,6 +3,7 @@ import React, {useEffect, Fragment, useState}  from 'react'
 //import {NavLink} from 'react-router-dom'
 import { fetchCategories, fetchDataCategories } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
+import Find from './Find'
 
 export default function Catalog() {
     const {items, loading, error} = useSelector(state => state.serviceCategories)
@@ -47,7 +48,7 @@ export default function Catalog() {
     return (
         <section className='container catalog'>
             <h2 className='text-center'>Каталог</h2>
-
+            <Find />
             <ul className='catalog-categories nav justify-content-center'>
                 <li className='nav-item'>
                     <p className='nav-link active' onClick={(evt) => handleClick(evt)}>Все</p>

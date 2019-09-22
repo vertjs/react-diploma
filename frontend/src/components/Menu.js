@@ -11,6 +11,13 @@ export default function Menu() {
         searchFormEl.querySelector('input').focus()    
     }
 
+    const handleChange = ({target}) => { // доработать
+        console.log(target.value)
+        if(target.value) {
+           return (<NavLink to='/catalog' exact></NavLink>)
+        }
+    }
+
     return (
         <Fragment>
             <header className='container'>
@@ -45,7 +52,7 @@ export default function Menu() {
                                     </div>
                                 </div>
                                 <form data-id='search-form' className='header-controls-search-form form-inline invisible'>
-                                    <input className='form-control' placeholder='Поиск'/>
+                                    <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
                                 </form>
                             </div>
                         </div>
