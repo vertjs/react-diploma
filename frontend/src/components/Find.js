@@ -1,17 +1,19 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import {  useSelector, useDispatch } from 'react-redux'
+import { searchGoods } from '../actions/actionCreators'
 
-function Find(props) {
+
+export default function Find() {
+    const {text} = useSelector(state => state.serviceSearch)
+    const dispatch = useDispatch();
+
+    const handleChange = ({target}) => {
+        dispatch(searchGoods(target.value))
+    }
+
     return (
         <form className="catalog-search-form form-inline">
-            <input className="form-control" placeholder="Поиск"/>
+            <input className="form-control" placeholder="Поиск" value={text} onChange={handleChange} name='find'/>
         </form>
     )
 }
-
-Find.propTypes = {
-
-}
-
-export default Find
-

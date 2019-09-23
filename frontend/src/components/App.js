@@ -1,7 +1,7 @@
 import React from 'react'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import HeadPage from './HeadPage'
-import Catalog from './Catalog'
+import CatalogPage from './CatalogPage'
 import About from './About'
 import Contacts from './Contacts'
 import Menu from './Menu'
@@ -14,7 +14,7 @@ export default function App() {
       <Menu />
         <Switch>
           <Route path='/' exact component={HeadPage} />
-          <Route path='/catalog' exact component={Catalog} />
+          <Route path='/catalog' exact component={CatalogPage} />
           <Route path='/about' component={About} />
           <Route path='/contacts' component={Contacts} />
           <Route path='*' component={Page404} />

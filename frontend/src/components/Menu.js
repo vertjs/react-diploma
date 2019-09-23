@@ -2,20 +2,21 @@ import React, {Fragment} from 'react'
 import banner from '../img/banner.jpg'
 import headerLogo from '../img/header-logo.png'
 import {NavLink} from 'react-router-dom'
+import { searchGoods } from '../actions/actionCreators'
+import { useDispatch } from 'react-redux'
 
 export default function Menu() {
-   
+    
+    const dispatch = useDispatch()
+
     const henderClick = () => {
         const searchFormEl = document.querySelector('[data-id=search-form]')
         searchFormEl.classList.toggle('invisible')
         searchFormEl.querySelector('input').focus()    
     }
 
-    const handleChange = ({target}) => { // доработать
-        console.log(target.value)
-        if(target.value) {
-           return (<NavLink to='/catalog' exact></NavLink>)
-        }
+    const handleChange = ({target}) => { 
+        dispatch(searchGoods(target.value))
     }
 
     return (
@@ -52,7 +53,10 @@ export default function Menu() {
                                     </div>
                                 </div>
                                 <form data-id='search-form' className='header-controls-search-form form-inline invisible'>
-                                    <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
+                                    <NavLink to='/catalog' exact>
+                                        <input className='form-control' placeholder='Поиск' onInput={handleChange}/>
+                                    
+                                    </NavLink>
                                 </form>
                             </div>
                         </div>

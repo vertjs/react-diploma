@@ -6,7 +6,10 @@ export default function HeadPage() {
     return (
         <Fragment>
             <Bestsellers />
-            <Catalog/>      
+            <section className='container catalog'>
+                <h2 className='text-center'>Каталог</h2>
+                <Catalog/>  
+            </section>
         </Fragment>
     );
 }
