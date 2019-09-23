@@ -4,7 +4,6 @@ import HeadPage from './HeadPage'
 import Catalog from './Catalog'
 import About from './About'
 import Contacts from './Contacts'
-import Find from './Find'
 import Menu from './Menu'
 import Footer from './Footer'
 import Page404 from './Page404'
@@ -15,8 +14,7 @@ export default function App() {
       <Menu />
         <Switch>
           <Route path='/' exact component={HeadPage} />
-          <Route path='/catalog' component={Catalog} />
-          <Route path='/catalog' exact component={Find} />
+          <Route path='/catalog' exact component={Catalog} />
           <Route path='/about' component={About} />
           <Route path='/contacts' component={Contacts} />
           <Route path='*' component={Page404} />

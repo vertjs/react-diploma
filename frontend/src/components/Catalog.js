@@ -1,4 +1,5 @@
 import React, {useEffect, Fragment, useState}  from 'react'
+import { render } from 'react-dom';
 //import PropTypes from 'prop-types'
 //import {NavLink} from 'react-router-dom'
 import { fetchCategories, fetchDataCategories } from '../actions/actionCreators'
@@ -24,6 +25,7 @@ export default function Catalog() {
     }
 
     useEffect(() => { 
+        render(<Find />, document.querySelector('.catalog'))
         dispatch(fetchCategories()) // загрузка заголовков с сервера
         dispatch(fetchDataCategories()) // загрузка каталога с сервера
     }, [dispatch])
@@ -48,7 +50,7 @@ export default function Catalog() {
     return (
         <section className='container catalog'>
             <h2 className='text-center'>Каталог</h2>
-            <Find />
+            {    /* */}
             <ul className='catalog-categories nav justify-content-center'>
                 <li className='nav-item'>
                     <p className='nav-link active' onClick={(evt) => handleClick(evt)}>Все</p>
@@ -84,3 +86,6 @@ export default function Catalog() {
         </section>
     );
 }
+
+
+
