@@ -7,13 +7,21 @@ import { useSelector, useDispatch } from 'react-redux'
 export default function Catalog() {
     const {items, loading, error} = useSelector(state => state.serviceCategories)
     const {data} = useSelector(state => state.serviceDataCategories)
+    const {text} = useSelector(state => state.serviceSearch)
     const dispatch = useDispatch()
     const [index, setIndex] = useState(null)
     const offset = '&offset=6'
+    
+    function filterItems(query) {
+        return data.filter((el) => {
+           return el.title.replace(/\s+/g, '').trim().toLowerCase().indexOf(query.toLowerCase()) > -1;
+        })
+    }
 
     function handleClick(evt, id) {
         [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))
         evt.target.classList.add('active')
+        filterItems(text)
         dispatch(fetchDataCategories(id)) // загрузка данных каталога с сервера по клику
         setIndex(id)
     }
