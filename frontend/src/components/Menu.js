@@ -4,19 +4,23 @@ import headerLogo from '../img/header-logo.png'
 import {NavLink} from 'react-router-dom'
 import { searchGoods } from '../actions/actionCreators'
 import { useDispatch } from 'react-redux'
+import useReactRouter from 'use-react-router';
 
 export default function Menu() {
-    
     const dispatch = useDispatch()
+    const { history } = useReactRouter();
 
-    const henderClick = () => {
+    const henderClick = () => { // скрыть/открыть иконку поиска
         const searchFormEl = document.querySelector('[data-id=search-form]')
         searchFormEl.classList.toggle('invisible')
         searchFormEl.querySelector('input').focus()    
     }
 
-    const handleChange = ({target}) => { 
-       dispatch(searchGoods(target.value))
+    const handleChange = ({target}) => { // значение поиска        
+        if(target.value) {
+            history.push('catalog')
+            dispatch(searchGoods(target.value))
+        }
     }
 
     return (
@@ -53,10 +57,7 @@ export default function Menu() {
                                     </div>
                                 </div>
                                 <form data-id='search-form' className='header-controls-search-form form-inline invisible'>
-                                    <NavLink to='/catalog' exact>
-                                        <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
-                                    
-                                    </NavLink>
+                                    <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
                                 </form>
                             </div>
                         </div>
