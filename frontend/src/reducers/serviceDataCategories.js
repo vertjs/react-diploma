@@ -7,6 +7,7 @@ import {
 
 const initialState = {
     data: [],
+    text: '',
     load: false,
     err: null,
 }
@@ -29,10 +30,11 @@ export default function serviceCategoriesReducer(state = initialState, action) {
         };
   
       case FETCH_DATA_CATEGORIES_SUCCESS:
-        const {data} = action.payload;
+        const {data, text} = action.payload
         return {
           ...state,
           data,
+          text,
           load: false,
           err: null,
         };

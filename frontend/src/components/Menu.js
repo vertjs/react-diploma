@@ -16,7 +16,7 @@ export default function Menu() {
     }
 
     const handleChange = ({target}) => { 
-        dispatch(searchGoods(target.value))
+       dispatch(searchGoods(target.value))
     }
 
     return (
@@ -54,7 +54,7 @@ export default function Menu() {
                                 </div>
                                 <form data-id='search-form' className='header-controls-search-form form-inline invisible'>
                                     <NavLink to='/catalog' exact>
-                                        <input className='form-control' placeholder='Поиск' onInput={handleChange}/>
+                                        <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
                                     
                                     </NavLink>
                                 </form>

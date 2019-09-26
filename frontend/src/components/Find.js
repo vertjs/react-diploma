@@ -7,13 +7,13 @@ export default function Find() {
     const {text} = useSelector(state => state.serviceSearch)
     const dispatch = useDispatch();
 
-    const handleChange = ({target}) => {
-        dispatch(searchGoods(target.value))
+    const handleChange = ({target}) => { // поисковая строка в каталоге
+        dispatch(searchGoods(target.value))         
     }
 
     return (
         <form className="catalog-search-form form-inline">
-            <input className="form-control" placeholder="Поиск" value={text} onChange={handleChange} name='find'/>
+            <input className="form-control" placeholder="Поиск" value={text} onChange={handleChange} />
         </form>
     )
 }

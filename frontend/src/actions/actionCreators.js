@@ -69,10 +69,11 @@ export const fetchDataCategoriesFailure = err => ({ // ошибка принят
   },
 });
   
-export const fetchDataCategoriesSuccess = data => ({ // успешное принятие данных каталога
+export const fetchDataCategoriesSuccess = (data, text) => ({ // успешное принятие данных каталога
   type: FETCH_DATA_CATEGORIES_SUCCESS,
   payload: {
     data,
+    text
   },
 });
 
@@ -106,9 +107,9 @@ export const fetchCategories = () => async (dispatch) => { // получение
   }
 };
 
-export const fetchDataCategories = (id=false, offset=false) => async (dispatch) => { // получение с сервера каталога продаж
+export const fetchDataCategories = (id=false, offset=false, text=false) => async (dispatch) => { // получение с сервера каталога продаж
   dispatch(fetchDataCategoriesRequest());
-  if(id && !offset) {
+  if(id && !offset && !text) { // 1
     try {
       const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id}`)
       if (!response.ok) {
@@ -117,38 +118,77 @@ export const fetchDataCategories = (id=false, offset=false) => async (dispatch) 
       const data = await response.json()
       dispatch(fetchDataCategoriesSuccess(data));
     } catch (error) {
-      console.log(error);
-      dispatch(fetchDataCategoriesFailure(error.message));
+      console.log(error)
+      dispatch(fetchDataCategoriesFailure(error.message))
     }
-  } else if(id && offset) {
+    } else if(id && !offset && text) { //2
+      try {
+        const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + '&q=' + text}`)
+        if (!response.ok) {
+          throw new Error(response.statusText)
+        }
+        const data = await response.json()
+        dispatch(fetchDataCategoriesSuccess(data, text))
+      } catch (error) {
+        console.log(error);
+        dispatch(fetchDataCategoriesFailure(error.message))
+      }
+    } else if(id && offset && !text) { //3
       try {
         const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
         console.log(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
         if (!response.ok) {
-          throw new Error(response.statusText);
+          throw new Error(response.statusText)
         }
-        const data = await response.json();
-        console.log(data);
-        dispatch(fetchDataCategoriesSuccess(data));
+        const data = await response.json()
+        dispatch(fetchDataCategoriesSuccess(data))
       } catch (error) {
         console.log(error);
-        dispatch(fetchDataCategoriesFailure(error.message));
+        dispatch(fetchDataCategoriesFailure(error.message))
       }
-  } else if(!id && !offset) {
+  } else if(!id && !offset && !text) { //4
       try {
-        const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL}`);
-    
+        const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL}`)
         if (!response.ok) {
           throw new Error(response.statusText);
         }
-        const data = await response.json();
-      
+        const data = await response.json()
         dispatch(fetchDataCategoriesSuccess(data));
       } catch (error) {
         console.log(error);
         dispatch(fetchDataCategoriesFailure(error.message));
       }
-  } else if(!id && offset) {
+  }  else if(!id && !offset && text) { //5
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?q=' + text}`)
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      console.log(data);
+      console.log(text);
+      dispatch(fetchDataCategoriesSuccess(data));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchDataCategoriesFailure(error.message));
+    }
+  } else if(!id && offset && text) { // 6
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?q=' + text}`);
+  
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json();
+      console.log(data);
+      console.log(text);
+      dispatch(fetchDataCategoriesSuccess(data, text));
+    } catch (error) {
+      console.log(error);
+      dispatch(fetchDataCategoriesFailure(error.message));
+    }
+}
+   else if(!id && offset && !text) { //7
       try {
         const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?' + offset}`);
     

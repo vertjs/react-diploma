@@ -1,7 +1,7 @@
 import React, {useEffect, Fragment, useState}  from 'react'
 //import PropTypes from 'prop-types'
-//import {NavLink} from 'react-router-dom'
-import { fetchCategories, fetchDataCategories } from '../actions/actionCreators'
+import {NavLink} from 'react-router-dom'
+import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
 
 export default function Catalog() {
@@ -10,29 +10,29 @@ export default function Catalog() {
     const {text} = useSelector(state => state.serviceSearch)
     const dispatch = useDispatch()
     const [index, setIndex] = useState(null)
-    const offset = '&offset=6'
+    const offset = '&offset='
+    let [num, setNum] = useState(6)
     
-    function filterItems(query) {
-        return data.filter((el) => {
-           return el.title.replace(/\s+/g, '').trim().toLowerCase().indexOf(query.toLowerCase()) > -1;
-        })
-    }
-
     function handleClick(evt, id) {
         [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))
         evt.target.classList.add('active')
-        filterItems(text)
-        dispatch(fetchDataCategories(id)) // загрузка данных каталога с сервера по клику
+        dispatch(fetchDataCategories(id, '', text)) // загрузка данных каталога с сервера по клику
         setIndex(id)
+        setNum(6)
     }
-
+    
     function yetClick() {
-        dispatch(fetchDataCategories(index, offset)) // загрузить еще
+       let sum = parseInt(num)+6
+       setNum(() => sum)
+       let out = offset + num
+       dispatch(fetchDataCategories(index, out, text))
     }
 
     useEffect(() => { 
         dispatch(fetchCategories()) // загрузка заголовков с сервера
         dispatch(fetchDataCategories()) // загрузка каталога с сервера
+        dispatch(searchGoods(text))
+        
     }, [dispatch])
   
 
