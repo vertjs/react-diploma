@@ -133,15 +133,18 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
         console.log(error);
         dispatch(fetchDataCategoriesFailure(error.message))
       }
-    } else if(id && offset && !text) { //3
+    } else if(id && offset) { //3
       try {
         const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
         console.log(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
+        console.log(text);
+        
         if (!response.ok) {
           throw new Error(response.statusText)
         }
         const data = await response.json()
         dispatch(fetchDataCategoriesSuccess(data))
+        console.log(data);
       } catch (error) {
         console.log(error);
         dispatch(fetchDataCategoriesFailure(error.message))
@@ -174,7 +177,7 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
     }
   } else if(!id && offset && text) { // 6
     try {
-      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?q=' + text}`);
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?q=' + text + offset}`);
   
       if (!response.ok) {
         throw new Error(response.statusText);
@@ -207,6 +210,7 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
 
 export const searchGoods = (text) => async (dispatch) => {
   dispatch(findGoods(text))
+
   try {
     const response = await fetch(`${process.env.REACT_APP_FIND_GOODS_URL + text}`)
     if (!response.ok) {
@@ -214,7 +218,24 @@ export const searchGoods = (text) => async (dispatch) => {
     }
     const data = await response.json()
     dispatch(fetchDataCategoriesSuccess(data))
+ 
   } catch (error) {
     dispatch(fetchDataCategoriesSuccess(error.message))
   }
 };
+
+export const fetchDataProduct = (id) => async (dispatch) => { // данные одного товара
+  dispatch(fetchDataCategoriesRequest())
+    try {
+      const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + id}`)
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      const data = await response.json()
+      dispatch(fetchDataCategoriesSuccess(data));
+    } catch (error) {
+      console.log(error)
+      dispatch(fetchDataCategoriesFailure(error.message))
+    }
+}
+  

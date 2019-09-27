@@ -4,11 +4,11 @@ import headerLogo from '../img/header-logo.png'
 import {NavLink} from 'react-router-dom'
 import { searchGoods } from '../actions/actionCreators'
 import { useDispatch } from 'react-redux'
-import useReactRouter from 'use-react-router';
+import useReactRouter from 'use-react-router'
 
 export default function Menu() {
     const dispatch = useDispatch()
-    const { history } = useReactRouter();
+    const { history } = useReactRouter()
 
     const henderClick = () => { // скрыть/открыть иконку поиска
         const searchFormEl = document.querySelector('[data-id=search-form]')

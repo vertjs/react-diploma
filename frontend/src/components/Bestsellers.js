@@ -1,6 +1,7 @@
 import React, {Fragment, useEffect} from 'react'
 import { fetchBestSales } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
 export default function Bestsellers() {
     const {items, loading, error} = useSelector(state => state.serviceList);
@@ -40,7 +41,7 @@ export default function Bestsellers() {
                                         <div className="card-body">
                                             <p className="card-text">{o.title.split(' ', 2).join(' ')}</p>
                                             <p className="card-text">{o.price} руб.</p>
-                                            <a href="/products/1.html" className="btn btn-outline-primary">Заказать</a>
+                                            <NavLink to={'/catalog/:' + o.id} className='btn btn-outline-primary'>Заказать</NavLink>
                                         </div>
                                     </div>
                                 </div>

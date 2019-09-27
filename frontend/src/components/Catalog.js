@@ -1,5 +1,4 @@
 import React, {useEffect, Fragment, useState}  from 'react'
-//import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
@@ -31,9 +30,8 @@ export default function Catalog() {
     useEffect(() => { 
         dispatch(fetchCategories()) // загрузка заголовков с сервера
         dispatch(fetchDataCategories()) // загрузка каталога с сервера
-        dispatch(searchGoods(text))
-        
-    }, [dispatch])
+        dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items    
+    }, [text, dispatch])
   
 
     if (loading) {
@@ -68,13 +66,13 @@ export default function Catalog() {
                 (<Fragment>
                     <div className='row'>
                         {data.map(o => (
-                            <div className='col-4' key={o.id}>
+                            <div className='col-4' key={o.id} >
                                 <div className='card catalog-item-card' >
                                     <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} style={{ width: '90%', height: 200, objectFit: 'cover' }}/>
                                     <div className='card-body'>
                                         <p className='card-text'>{o.title}</p>
                                         <p className='card-text'>{o.price} руб.</p>
-                                        <a href='/products/1.html' className='btn btn-outline-primary'>Заказать</a>
+                                        <NavLink to={'/catalog/:' + o.id} exact className='btn btn-outline-primary'>Заказать</NavLink>
                                     </div>
                                 </div>
                             </div>

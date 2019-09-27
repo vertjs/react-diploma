@@ -18,7 +18,7 @@ export default function App() {
           <Route path='/catalog' exact component={CatalogPage} />
           <Route path='/about' component={About} />
           <Route path='/contacts' component={Contacts} replace/>
-          <Route path='/catalog:id' exact component={ProductPage} />
+          <Route path='/catalog/:id' exact component={ProductPage} />
           <Route path='*' component={Page404} />
         </Switch>
       <Footer/>
