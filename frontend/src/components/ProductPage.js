@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 //import { useSelector, useDispatch } from 'react-redux'
 //import { fetchDataProduct } from '../actions/actionCreators'
 import useJsonFetch from '../hooks/useJsonFetch'
@@ -22,9 +22,7 @@ export default function ProductPage({match}) {
     })
     
     useEffect(() => {
-        
         if(data.id !== undefined) {
-            console.log(data.images[0]);
             setForm({
                 image: data.images[0],
                 title: data.title,
@@ -41,6 +39,8 @@ export default function ProductPage({match}) {
    
 
     return (
+        <Fragment>
+        {form.title !== undefined &&
         <section className="catalog-item">
             <h2 className="text-center">{form.title}</h2>
             <div className="row">
@@ -78,12 +78,8 @@ export default function ProductPage({match}) {
                         </tbody>
                     </table>
                     <div className="text-center">
-                        <p>Размеры в наличии: {console.log(form.sizes)}
-                          {/* {form.sizes.map(o => {
-                                if(o.avalible) {
-                                    return  <span className="catalog-item-size selected">{o.sizes}</span>;
-                                } else return;
-                            })} */}
+                        <p>Размеры в наличии: 
+                            { form.sizes !== undefined && form.sizes.map((o, i) => o.avalible && <span className="catalog-item-size selected" key={i}>{o.size}</span>) }
                         </p> 
                         <p>Количество: <span className="btn-group btn-group-sm pl-2">
                                 <button className="btn btn-secondary">-</button>
@@ -96,6 +92,8 @@ export default function ProductPage({match}) {
                 </div> 
             </div> 
         </section>
+        }
+        </Fragment>
     )
             
 }
