@@ -8,6 +8,7 @@ import Menu from './Menu'
 import Footer from './Footer'
 import ProductPage from './ProductPage'
 import Page404 from './Page404'
+import Cart from './Cart';
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
           <Route path='/' exact component={HeadPage} />
           <Route path='/catalog' exact component={CatalogPage} />
           <Route path='/about' component={About} />
+          <Route path='/cart' exact component={Cart} />
           <Route path='/contacts' component={Contacts} replace/>
           <Route path='/catalog/:id' exact component={ProductPage} />
           <Route path='*' component={Page404} />

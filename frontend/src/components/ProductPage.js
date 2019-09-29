@@ -1,14 +1,17 @@
 import React, {useState, useEffect, Fragment} from 'react'
+import {NavLink} from 'react-router-dom'
 import useJsonFetch from '../hooks/useJsonFetch'
+import useReactRouter from 'use-react-router'
 
 export default function ProductPage({match}) {
     let matchId = (match.params.id)
     let num = matchId.match(/\d+/)
-    const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + num[0]
+    const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + num[0] 
     const [data] = useJsonFetch(url, {})
     const [selected, setSelected] = useState(false) // выбран размер
     const [amount, setAmount] = useState(0) // количество товара
     const [mark, setMark] = useState(false) // флаг для стиля кнопки корзины
+    const { history } = useReactRouter()
 
     const [form, setForm] = useState({
         image: '',
@@ -39,7 +42,6 @@ export default function ProductPage({match}) {
 
     const handleSelected = () => { // выделить выбранный размер
         setSelected(!selected)
-     
     }
 
     const handleDecrement = () => { // уменьшить количество товаров в корзине
@@ -61,7 +63,11 @@ export default function ProductPage({match}) {
             setAmount(amount => amount + 1)
             setMark(true)
         }
-    }  
+    }
+
+    const hendleRef = () => {
+        history.replace('cart')
+    }
 
     return (
         <Fragment>
@@ -105,20 +111,26 @@ export default function ProductPage({match}) {
                             <div className="text-center">
                                 <p>Размеры в наличии: 
                                     { form.sizes !== undefined && 
-                                    form.sizes.map((o, i) => o.avalible && 
-                                        <span className={`catalog-item-size ${selected ? 'selected' : ''} `} key={i} onClick={handleSelected}>
-                                            {o.size}
-                                        </span> )
+                                        form.sizes.map((o, i) => o.avalible && 
+                                            <span className={`catalog-item-size ${selected ? 'selected' : ''} `} key={i} onClick={handleSelected}>
+                                                {o.size}
+                                            </span> )
                                     }
-                                </p> 
-                                <p>Количество: <span className="btn-group btn-group-sm pl-2">
-                                        <button className="btn btn-secondary" onClick={handleDecrement}>-</button>
-                                        <span className="btn btn-outline-primary">{amount}</span>
-                                        <button className="btn btn-secondary" onClick={handleIncrement}>+</button>
-                                    </span>
                                 </p>
+                                { form.sizes !== undefined && 
+                                    <p>Количество: <span className="btn-group btn-group-sm pl-2">
+                                            <button className="btn btn-secondary" onClick={handleDecrement}>-</button>
+                                            <span className="btn btn-outline-primary">{amount}</span>
+                                            <button className="btn btn-secondary" onClick={handleIncrement}>+</button>
+                                        </span>
+                                    </p>
+                                }
                             </div>
-                            <button className='btn btn-danger btn-block btn-lg' disabled={mark && selected ? false : true} >В корзину</button>
+                            
+                            <button className='btn btn-danger btn-block btn-lg' disabled={mark && selected ? false : true} onClick={hendleRef}>В корзину
+                               
+                            </button>
+                          
                         </div> 
                     </div> 
                 </section>
