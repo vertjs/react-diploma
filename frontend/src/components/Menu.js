@@ -10,13 +10,13 @@ export default function Menu() {
     const dispatch = useDispatch()
     const { history } = useReactRouter()
 
-    const henderClick = () => { // скрыть/открыть иконку поиска
+    const handleClick = () => { // скрыть/открыть иконку поиска
         const searchFormEl = document.querySelector('[data-id=search-form]')
         searchFormEl.classList.toggle('invisible')
         searchFormEl.querySelector('input').focus()    
     }
 
-    const handleChange = ({target}) => { // значение поиска        
+    const handleChange = ({target}) => { // отправить текст поиска      
         if(target.value) {
             history.push('catalog')
             dispatch(searchGoods(target.value))
@@ -49,7 +49,7 @@ export default function Menu() {
                             </ul>
                             <div>
                                 <div className='header-controls-pics'>
-                                    <div data-id='search-expander' className='header-controls-pic header-controls-search' onClick={henderClick}></div>
+                                    <div data-id='search-expander' className='header-controls-pic header-controls-search' onClick={handleClick}></div>
                                     {/*<!-- Do programmatic navigation on click to /cart.html -->*/}
                                     <div className='header-controls-pic header-controls-cart'>
                                         <div className='header-controls-cart-full'>1</div>

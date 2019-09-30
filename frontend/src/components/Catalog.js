@@ -11,7 +11,7 @@ export default function Catalog() {
     const [index, setIndex] = useState(null)
     const offset = '&offset='
     let [num, setNum] = useState(6)
-    
+
     function handleClick(evt, id) {
         [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))
         evt.target.classList.add('active')
@@ -30,9 +30,14 @@ export default function Catalog() {
     useEffect(() => { 
         dispatch(fetchCategories()) // загрузка заголовков с сервера
         dispatch(fetchDataCategories()) // загрузка каталога с сервера
-        dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items    
+        dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items 
+        
     }, [text, dispatch])
-  
+
+    const hendleRef = () => {
+        localStorage.object = JSON.stringify(object)
+        history.replace('/cart')
+    }
 
     if (loading) {
         return (
@@ -72,7 +77,9 @@ export default function Catalog() {
                                     <div className='card-body'>
                                         <p className='card-text'>{o.title}</p>
                                         <p className='card-text'>{o.price} руб.</p>
-                                        <NavLink to={'/catalog/:' + o.id} exact className='btn btn-outline-primary'>Заказать</NavLink>
+                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={hendleRef}>
+                                            Заказать
+                                        </NavLink>
                                     </div>
                                 </div>
                             </div>
