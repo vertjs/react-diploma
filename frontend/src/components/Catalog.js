@@ -11,6 +11,8 @@ export default function Catalog() {
     const [index, setIndex] = useState(null)
     const offset = '&offset='
     let [num, setNum] = useState(6)
+    let title = React.createRef()
+    let price = React.createRef()
 
     function handleClick(evt, id) {
         [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))
@@ -31,13 +33,15 @@ export default function Catalog() {
         dispatch(fetchCategories()) // загрузка заголовков с сервера
         dispatch(fetchDataCategories()) // загрузка каталога с сервера
         dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items 
-        
     }, [text, dispatch])
 
-    const hendleRef = () => {
-        localStorage.object = JSON.stringify(object)
-        history.replace('/cart')
+    const hendleRef = (evt) => {
+        console.log(evt.target);
+        console.log(title.current.textContent);
+        localStorage.setItem('title', JSON.stringify({'title': title.current.textContent}))
+        localStorage.setItem('price', JSON.stringify({'price': price.current.textContent}))
     }
+
 
     if (loading) {
         return (
@@ -75,8 +79,8 @@ export default function Catalog() {
                                 <div className='card catalog-item-card' >
                                     <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} style={{ width: '90%', height: 200, objectFit: 'cover' }}/>
                                     <div className='card-body'>
-                                        <p className='card-text'>{o.title}</p>
-                                        <p className='card-text'>{o.price} руб.</p>
+                                        <p className='card-text' ref={title}>{o.title}</p>
+                                        <p className='card-text' ref={price}>{o.price} руб.</p>
                                         <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={hendleRef}>
                                             Заказать
                                         </NavLink>

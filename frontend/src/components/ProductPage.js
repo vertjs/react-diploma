@@ -83,7 +83,9 @@ export default function ProductPage({match}) {
     }
 
     const hendleRef = () => {
-        localStorage.object = JSON.stringify(object)
+        let names = []
+        names[0] = object
+        localStorage.setItem("names", JSON.stringify(object))
         history.replace('/cart')
     }
 

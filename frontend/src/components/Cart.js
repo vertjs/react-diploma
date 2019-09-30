@@ -1,18 +1,30 @@
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment, useEffect, useState} from 'react'
 
+const arr = []
 export default function Cart() {
+    
+    const [local, setLocal] = useState()
+
     const handleClearLocalstorage = () => {
-        delete localStorage.object
+        delete localStorage.names
+        delete localStorage.title
+        delete localStorage.price
     }
 
-    if(localStorage.object) {
-        const dataProduct = JSON.parse(localStorage.object)
-        console.log(dataProduct);
-    }
+    useEffect(() => {
+        const storedNames = JSON.parse(localStorage.getItem("names"))
+        const storedTitle = JSON.parse(localStorage.getItem("title"))
+        const storedPrice = JSON.parse(localStorage.getItem("price"))
+        arr.push(Object.assign({}, storedNames, storedTitle, storedPrice))
+        console.log(arr)
+        const loc = local => setLocal([ ...local, arr])
+    }, [arr]) //
 
+
+  
     return (
         <Fragment>
-            <section className="cart">
+            <section className="cart container catalog">
                 <h2 className="text-center">Корзина</h2>
                 <table className="table table-bordered">
                     <thead>
