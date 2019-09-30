@@ -4,9 +4,7 @@ import useJsonFetch from '../hooks/useJsonFetch'
 import useReactRouter from 'use-react-router'
 
 export default function ProductPage({match}) {
-    let matchId = (match.params.id)
-    let num = matchId.match(/\d+/)
-    const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + num[0] 
+    const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
     const [data] = useJsonFetch(url, {})
     const [selected, setSelected] = useState(false) // выбран размер
     const [amount, setAmount] = useState(0) // количество товара
@@ -66,7 +64,7 @@ export default function ProductPage({match}) {
     }
 
     const hendleRef = () => {
-        history.replace('cart')
+        history.replace('/cart')
     }
 
     return (
