@@ -72,7 +72,7 @@ export default function Catalog() {
                                     <div className='card-body'>
                                         <p className='card-text'>{o.title}</p>
                                         <p className='card-text'>{o.price} руб.</p>
-                                        <NavLink to={'/catalog/:' + o.id} exact className='btn btn-outline-primary'>Заказать</NavLink>
+                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary'>Заказать</NavLink>
                                     </div>
                                 </div>
                             </div>

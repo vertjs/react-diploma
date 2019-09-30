@@ -41,7 +41,7 @@ export default function Bestsellers() {
                                         <div className="card-body">
                                             <p className="card-text">{o.title.split(' ', 2).join(' ')}</p>
                                             <p className="card-text">{o.price} руб.</p>
-                                            <NavLink to={'/catalog/:' + o.id} className='btn btn-outline-primary'>Заказать</NavLink>
+                                            <NavLink to={'/catalog/' + o.id} className='btn btn-outline-primary'>Заказать</NavLink>
                                         </div>
                                     </div>
                                 </div>
