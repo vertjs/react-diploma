@@ -34,6 +34,9 @@ export default function ProductPage({match}) {
                 sizes: data.sizes
             })
         }
+        
+        let url = window.location.href
+        localStorage.setItem("url", JSON.stringify({'url': url}))
     }, [data])
 
     const handleSelected = (evt) => { // выделить выбранный размер
@@ -83,9 +86,6 @@ export default function ProductPage({match}) {
     }
 
     const hendleRef = () => {
-        let names = []
-        names[0] = object
-        localStorage.setItem("names", JSON.stringify(object))
         history.replace('/cart')
     }
 

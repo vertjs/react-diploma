@@ -3,6 +3,7 @@ import {NavLink} from 'react-router-dom'
 import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
 
+
 export default function Catalog() {
     const {items, loading, error} = useSelector(state => state.serviceCategories)
     const {data} = useSelector(state => state.serviceDataCategories)
@@ -35,11 +36,8 @@ export default function Catalog() {
         dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items 
     }, [text, dispatch])
 
-    const hendleRef = (evt) => {
-        console.log(evt.target);
-        console.log(title.current.textContent);
-        localStorage.setItem('title', JSON.stringify({'title': title.current.textContent}))
-        localStorage.setItem('price', JSON.stringify({'price': price.current.textContent}))
+    const handleBuy = (item) => {
+        localStorage.setItem('item', JSON.stringify(item))
     }
 
 
@@ -79,9 +77,9 @@ export default function Catalog() {
                                 <div className='card catalog-item-card' >
                                     <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} style={{ width: '90%', height: 200, objectFit: 'cover' }}/>
                                     <div className='card-body'>
-                                        <p className='card-text' ref={title}>{o.title}</p>
-                                        <p className='card-text' ref={price}>{o.price} руб.</p>
-                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={hendleRef}>
+                                        <p className='card-text'>{o.title}</p>
+                                        <p className='card-text'>{o.price} руб.</p>
+                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={()=> handleBuy(o)}>
                                             Заказать
                                         </NavLink>
                                     </div>

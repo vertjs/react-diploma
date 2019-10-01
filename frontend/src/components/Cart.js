@@ -2,23 +2,18 @@ import React, {Fragment, useEffect, useState} from 'react'
 
 const arr = []
 export default function Cart() {
-    
     const [local, setLocal] = useState()
 
     const handleClearLocalstorage = () => {
-        delete localStorage.names
-        delete localStorage.title
-        delete localStorage.price
+        delete localStorage.item
     }
 
-    useEffect(() => {
-        const storedNames = JSON.parse(localStorage.getItem("names"))
-        const storedTitle = JSON.parse(localStorage.getItem("title"))
-        const storedPrice = JSON.parse(localStorage.getItem("price"))
-        arr.push(Object.assign({}, storedNames, storedTitle, storedPrice))
-        console.log(arr)
-        const loc = local => setLocal([ ...local, arr])
-    }, [arr]) //
+    //useEffect(() => {
+        const url = JSON.parse(localStorage.getItem("url"))
+        const item = JSON.parse(localStorage.getItem("item"))
+        arr.push(Object.assign({}, item, url))
+       console.log(arr)
+    //}, [arr]) 
 
 
   
@@ -39,15 +34,22 @@ export default function Cart() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td><a href="/products/1.html">Босоножки 'MYER'</a></td>
-                            <td>18 US</td>
-                            <td>1</td>
-                            <td>34 000 руб.</td>
-                            <td>34 000 руб.</td>
-                            <td><button className="btn btn-outline-danger btn-sm" onClick={handleClearLocalstorage}>Удалить</button></td>
-                        </tr>
+                        {arr && 
+                            (<Fragment>
+                                {arr.map((o, i) => (
+                                    <tr key={o.id}>
+                                        <th scope="row">{i+1}</th>
+                                        <td><a href="/products/1.html">{o.title}</a></td>
+                                        <td>18 US</td>
+                                        <td>1</td>
+                                        <td>{o.price} руб.</td>
+                                        <td>{o.price} руб.</td>
+                                        <td><button className="btn btn-outline-danger btn-sm" onClick={handleClearLocalstorage}>Удалить</button></td>
+                                    </tr>
+                            ))}
+                            </Fragment>)
+                        }
+
                         <tr>
                             <td colSpan="5" className="text-right">Общая стоимость</td>
                             <td>34 000 руб.</td>
