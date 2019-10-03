@@ -36,8 +36,8 @@ export default function Catalog() {
         dispatch(searchGoods(text)) // загрузка каталога по результатам поиска из items 
     }, [text, dispatch])
 
-    const handleBuy = (item) => {
-        localStorage.setItem('item', JSON.stringify(item))
+    const handleBuy = (name, item) => { // заказать
+        localStorage.setItem(name, JSON.stringify(item))
     }
 
 
@@ -79,7 +79,7 @@ export default function Catalog() {
                                     <div className='card-body'>
                                         <p className='card-text'>{o.title}</p>
                                         <p className='card-text'>{o.price} руб.</p>
-                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={()=> handleBuy(o)}>
+                                        <NavLink to={'/catalog/' + o.id} exact className='btn btn-outline-primary' onClick={()=> handleBuy(o.id, o)}>
                                             Заказать
                                         </NavLink>
                                     </div>

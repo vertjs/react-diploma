@@ -136,15 +136,11 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
     } else if(id && offset) { //3
       try {
         const response = await fetch(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
-        console.log(`${process.env.REACT_APP_DATA_CATEGORIES_URL + '?categoryId=' + id + offset}`)
-        console.log(text);
-        
         if (!response.ok) {
           throw new Error(response.statusText)
         }
         const data = await response.json()
         dispatch(fetchDataCategoriesSuccess(data))
-        console.log(data);
       } catch (error) {
         console.log(error);
         dispatch(fetchDataCategoriesFailure(error.message))

@@ -2,6 +2,7 @@ import React, {useState, useEffect, Fragment} from 'react'
 import useJsonFetch from '../hooks/useJsonFetch'
 import useReactRouter from 'use-react-router'
 
+let arrItems = []
 export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
     const [data] = useJsonFetch(url, {})
@@ -33,10 +34,7 @@ export default function ProductPage({match}) {
                 reason: data.reason,
                 sizes: data.sizes
             })
-        }
-        
-        let url = window.location.href
-        localStorage.setItem("url", JSON.stringify({'url': url}))
+        }       
     }, [data])
 
     const handleSelected = (evt) => { // выделить выбранный размер
@@ -85,8 +83,18 @@ export default function ProductPage({match}) {
         }
     }
 
-    const hendleRef = () => {
+    const pushinCart = () => { // в корзину
+       /* let arrItems = JSON.parse(localStorage.getItem('arrItems')) || []
+        arrItems.push(object)
+        localStorage.setItem("items", JSON.stringify(arrItems))*/
         history.replace('/cart')
+
+        let objItems = JSON.parse(localStorage.getItem(match.params.id))
+        console.log(objItems);
+        let obj = Object.assign({}, objItems, object)
+        arrItems.push(obj)
+        console.log(arrItems);
+        localStorage.setItem('arrItems', JSON.stringify(arrItems))
     }
 
     return (
@@ -147,7 +155,7 @@ export default function ProductPage({match}) {
                                     </p>
                                 }
                             </div>
-                            <button className='btn btn-danger btn-block btn-lg' disabled={mark && selected ? false : true} onClick={hendleRef}>В корзину</button>
+                            <button className='btn btn-danger btn-block btn-lg' disabled={mark && selected ? false : true} onClick={pushinCart}>В корзину</button>
                         </div> 
                     </div> 
                 </section>

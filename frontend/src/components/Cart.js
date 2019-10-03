@@ -1,20 +1,19 @@
 import React, {Fragment, useEffect, useState} from 'react'
+import {NavLink} from 'react-router-dom'
 
-const arr = []
+
 export default function Cart() {
-    const [local, setLocal] = useState()
-
-    const handleClearLocalstorage = () => {
-        delete localStorage.item
+    const [arr, setLocalArr] = useState([])
+  
+    const handleClearLocalstorage = (el) => {
+        //delete localStorage.el
+        console.log(arr)
     }
 
-    //useEffect(() => {
-        const url = JSON.parse(localStorage.getItem("url"))
-        const item = JSON.parse(localStorage.getItem("item"))
-        arr.push(Object.assign({}, item, url))
-       console.log(arr)
-    //}, [arr]) 
-
+    useEffect(() => {
+        const items = JSON.parse(localStorage.getItem("arrItems"))
+        setLocalArr(prev => [...prev, items])
+    }, []) 
 
   
     return (
@@ -36,17 +35,7 @@ export default function Cart() {
                     <tbody>
                         {arr && 
                             (<Fragment>
-                                {arr.map((o, i) => (
-                                    <tr key={o.id}>
-                                        <th scope="row">{i+1}</th>
-                                        <td><a href="/products/1.html">{o.title}</a></td>
-                                        <td>18 US</td>
-                                        <td>1</td>
-                                        <td>{o.price} руб.</td>
-                                        <td>{o.price} руб.</td>
-                                        <td><button className="btn btn-outline-danger btn-sm" onClick={handleClearLocalstorage}>Удалить</button></td>
-                                    </tr>
-                            ))}
+                                {console.log(arr)}
                             </Fragment>)
                         }
 
