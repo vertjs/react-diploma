@@ -1,16 +1,19 @@
 import React, {Fragment, useEffect, useState} from 'react'
 import {NavLink} from 'react-router-dom'
-
+import { useDispatch } from 'react-redux'
+import { amountGoodsInCart } from '../actions/actionCreators'
 
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
-  
-    const handleClearLocalstorage = (el) => {
+    const dispatch = useDispatch()
+
+    const handleClearLocalstorage = (el) => { // удалить из карзины
         const items = JSON.parse(localStorage.getItem("allItems"))
         let found = items.findIndex(o => o.id === el.id)
         items.splice(found, 1)
         localStorage.setItem("allItems", JSON.stringify(items))
         setLocalArr(items)
+        dispatch(amountGoodsInCart(items))
     }
 
     useEffect(() => {

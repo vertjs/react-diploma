@@ -11,7 +11,9 @@ import {
     FETCH_DATA_CATEGORIES_FAILURE,
     FETCH_DATA_CATEGORIES_SUCCESS,
 
-    FIND_GOODS
+    FIND_GOODS,
+
+    ICON_GOODS_IN_CART
 
   } from './actionTypes';
 
@@ -74,6 +76,13 @@ export const fetchDataCategoriesSuccess = (data, text) => ({ // успешное
   payload: {
     data,
     text
+  },
+});
+
+export const iconGoodsInCart = amount => ({ // ошибка принятия данных каталога
+  type: ICON_GOODS_IN_CART,
+  payload: {
+    amount,
   },
 });
 
@@ -235,3 +244,8 @@ export const fetchDataProduct = (id) => async (dispatch) => { // данные о
     }
 }
   
+export const amountGoodsInCart = () => (dispatch) => { // кол-во в корзине
+  const items = JSON.parse(localStorage.getItem("allItems"))
+  console.log(items.length);
+  dispatch(iconGoodsInCart(items.length))
+}

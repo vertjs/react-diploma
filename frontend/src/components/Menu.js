@@ -3,24 +3,29 @@ import banner from '../img/banner.jpg'
 import headerLogo from '../img/header-logo.png'
 import {NavLink} from 'react-router-dom'
 import { searchGoods } from '../actions/actionCreators'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import useReactRouter from 'use-react-router'
 
 export default function Menu() {
     const dispatch = useDispatch()
     const { history } = useReactRouter()
+    const {amount} = useSelector(state => state.serviceAmountGoods)
 
-    const handleClick = () => { // скрыть/открыть иконку поиска
+    const handleChangeIcon = () => { // скрыть/открыть иконку поиска
         const searchFormEl = document.querySelector('[data-id=search-form]')
         searchFormEl.classList.toggle('invisible')
-        searchFormEl.querySelector('input').focus()    
+        searchFormEl.querySelector('input').focus()
     }
 
-    const handleChange = ({target}) => { // отправить текст поиска      
+    const handleChangeTextSearch = ({target}) => { // отправить текст поиска      
         if(target.value) {
             history.push('catalog')
             dispatch(searchGoods(target.value))
         }
+    }
+
+    const handleGoCart = () => {
+       history.push('cart')
     }
 
     return (
@@ -49,15 +54,19 @@ export default function Menu() {
                             </ul>
                             <div>
                                 <div className='header-controls-pics'>
-                                    <div data-id='search-expander' className='header-controls-pic header-controls-search' onClick={handleClick}></div>
+                                    <div data-id='search-expander' className='header-controls-pic header-controls-search' onClick={handleChangeIcon}></div>
                                     {/*<!-- Do programmatic navigation on click to /cart.html -->*/}
-                                    <div className='header-controls-pic header-controls-cart'>
-                                        <div className='header-controls-cart-full'>1</div>
-                                        <div className='header-controls-cart-menu'></div>
+                                    <div className='header-controls-pic header-controls-cart' onClick={handleGoCart}>
+                                        {amount > 0 && (
+                                            <Fragment>
+                                                <div className='header-controls-cart-full'>{amount}</div>
+                                                <div className='header-controls-cart-menu'></div>
+                                                </Fragment>
+                                        )}
                                     </div>
                                 </div>
                                 <form data-id='search-form' className='header-controls-search-form form-inline invisible'>
-                                    <input className='form-control' placeholder='Поиск' onChange={handleChange}/>
+                                    <input className='form-control' placeholder='Поиск' onChange={handleChangeTextSearch}/>
                                 </form>
                             </div>
                         </div>

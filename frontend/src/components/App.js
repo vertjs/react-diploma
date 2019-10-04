@@ -11,9 +11,10 @@ import Page404 from './Page404'
 import Cart from './Cart';
 
 export default function App() {
+
   return (
     <Router>
-      <Menu />
+      <Menu/>
         <Switch>
           <Route path='/' exact component={HeadPage} />
           <Route path='/catalog' exact component={CatalogPage} />

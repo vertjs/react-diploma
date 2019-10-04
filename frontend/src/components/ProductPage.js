@@ -1,6 +1,8 @@
 import React, {useState, useEffect, Fragment} from 'react'
 import useJsonFetch from '../hooks/useJsonFetch'
 import useReactRouter from 'use-react-router'
+import { useDispatch } from 'react-redux'
+import { amountGoodsInCart } from '../actions/actionCreators'
 
 export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
@@ -9,6 +11,7 @@ export default function ProductPage({match}) {
     const [object, setObject] = useState({amount: 0, size: '', url: ''}) // объект товара
     const [mark, setMark] = useState(false) // флаг для стиля кнопки "В корзину"
     const {history} = useReactRouter()
+    const dispatch = useDispatch()
     const [form, setForm] = useState({
         image: '',
         title: '',
@@ -92,6 +95,7 @@ export default function ProductPage({match}) {
         oldArrItems.push(obj)
        // setArrItems(prev => [...prev, obj])
         localStorage.setItem('allItems', JSON.stringify(oldArrItems))
+        dispatch(amountGoodsInCart(oldArrItems))
     }
 
     return (
