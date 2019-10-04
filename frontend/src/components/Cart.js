@@ -6,15 +6,17 @@ export default function Cart() {
     const [arr, setLocalArr] = useState([])
   
     const handleClearLocalstorage = (el) => {
-        //delete localStorage.el
-        console.log(arr)
+        const items = JSON.parse(localStorage.getItem("allItems"))
+        let found = items.findIndex(o => o.id === el.id)
+        items.splice(found, 1)
+        localStorage.setItem("allItems", JSON.stringify(items))
+        setLocalArr(items)
     }
 
     useEffect(() => {
-        const items = JSON.parse(localStorage.getItem("arrItems"))
-        setLocalArr(prev => [...prev, items])
-    }, []) 
-
+        const items = JSON.parse(localStorage.getItem("allItems"))
+        setLocalArr(items)
+    }, [])
   
     return (
         <Fragment>
@@ -35,14 +37,31 @@ export default function Cart() {
                     <tbody>
                         {arr && 
                             (<Fragment>
-                                {console.log(arr)}
+                                {arr.map((el, id) => {
+                                    return (
+                                        <tr key={id}>
+                                            <th scope="row">{id + 1}</th>
+                                            <td><NavLink to={'/catalog/' + el.id}>{el.title}</NavLink></td>
+                                            <td>{el.size}</td>
+                                            <td>{el.amount}</td>
+                                            <td>{el.price} руб.</td>
+                                            <td>{el.price * el.amount} руб.</td>
+                                            <td>
+                                                <button className="btn btn-outline-danger btn-sm" 
+                                                onClick={() => handleClearLocalstorage(el)}>Удалить
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )}
+                                )}
+                                <tr>
+                                    <td colSpan="5" className="text-right">Общая стоимость</td>
+                                    <td>{arr.reduce((acc, el) => acc + el.price, 0)} руб.</td>
+                                </tr>
                             </Fragment>)
                         }
 
-                        <tr>
-                            <td colSpan="5" className="text-right">Общая стоимость</td>
-                            <td>34 000 руб.</td>
-                        </tr>
+
                     </tbody>
                 </table>
             </section>

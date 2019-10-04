@@ -12,8 +12,6 @@ export default function Catalog() {
     const [index, setIndex] = useState(null)
     const offset = '&offset='
     let [num, setNum] = useState(6)
-    let title = React.createRef()
-    let price = React.createRef()
 
     function handleClick(evt, id) {
         [...document.querySelectorAll('.justify-content-center > .nav-item > .nav-link')].map(o => o.classList.remove('active'))

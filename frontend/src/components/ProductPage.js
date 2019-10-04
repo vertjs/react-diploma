@@ -2,7 +2,6 @@ import React, {useState, useEffect, Fragment} from 'react'
 import useJsonFetch from '../hooks/useJsonFetch'
 import useReactRouter from 'use-react-router'
 
-let arrItems = []
 export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
     const [data] = useJsonFetch(url, {})
@@ -84,17 +83,15 @@ export default function ProductPage({match}) {
     }
 
     const pushinCart = () => { // в корзину
-       /* let arrItems = JSON.parse(localStorage.getItem('arrItems')) || []
-        arrItems.push(object)
-        localStorage.setItem("items", JSON.stringify(arrItems))*/
         history.replace('/cart')
 
         let objItems = JSON.parse(localStorage.getItem(match.params.id))
-        console.log(objItems);
         let obj = Object.assign({}, objItems, object)
-        arrItems.push(obj)
-        console.log(arrItems);
-        localStorage.setItem('arrItems', JSON.stringify(arrItems))
+
+        let oldArrItems = JSON.parse(localStorage.getItem('allItems')) || []
+        oldArrItems.push(obj)
+       // setArrItems(prev => [...prev, obj])
+        localStorage.setItem('allItems', JSON.stringify(oldArrItems))
     }
 
     return (
