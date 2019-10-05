@@ -12,8 +12,8 @@ import {
     FETCH_DATA_CATEGORIES_SUCCESS,
 
     FIND_GOODS,
-
-    ICON_GOODS_IN_CART
+    ICON_GOODS_IN_CART,
+    SEND_ORDER_GOODS
 
   } from './actionTypes';
 
@@ -21,6 +21,13 @@ export const findGoods = (text) => ({ // поиск
   type: FIND_GOODS,
   payload: {
     text
+  }
+});
+
+export const orderGoods = (order) => ({ // отправить заказ на сервер
+  type: SEND_ORDER_GOODS,
+  payload: {
+    order
   }
 });
 
@@ -246,6 +253,12 @@ export const fetchDataProduct = (id) => async (dispatch) => { // данные о
   
 export const amountGoodsInCart = () => (dispatch) => { // кол-во в корзине
   const items = JSON.parse(localStorage.getItem("allItems"))
-  console.log(items.length);
   dispatch(iconGoodsInCart(items.length))
+}
+
+export const orderGoodsToServer = (order) => (dispatch) => { // отправить заказ
+  console.log(order);
+  const orderJson = JSON.stringify(order)
+  console.log(orderJson);
+  dispatch(orderGoods(orderJson))
 }

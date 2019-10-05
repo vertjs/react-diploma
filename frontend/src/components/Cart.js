@@ -1,11 +1,16 @@
-import React, {Fragment, useEffect, useState} from 'react'
-import {NavLink} from 'react-router-dom'
+import React, { Fragment, useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { amountGoodsInCart } from '../actions/actionCreators'
+import { amountGoodsInCart, orderGoodsToServer } from '../actions/actionCreators'
 
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
     const dispatch = useDispatch()
+    const [inputData, setInputData] = useState({
+        phone: '',
+        address: '',
+        agree: false
+    })
 
     const handleClearLocalstorage = (el) => { // удалить из карзины
         const items = JSON.parse(localStorage.getItem("allItems"))
@@ -20,10 +25,44 @@ export default function Cart() {
         const items = JSON.parse(localStorage.getItem("allItems"))
         setLocalArr(items)
     }, [])
+
+    const handleInputData = ({target}) => { // данные для оформления заказа
+        const {id, value} = target
+        setInputData(prev => ({...prev, [id]: value}))
+    }
+
+    const handleSendData = (evt) => { // оформить заказ
+        evt.preventDefault()
+        const allowedOrder = ['amount', 'id', 'price']
+        const allowedAccaunt = ['phone', 'address']
+
+        const goods = arr.map( el => { // заказанные товары
+            let filteredOrder = Object.keys(el)
+                  .filter( key => allowedOrder.includes(key) )
+                  .reduce((obj, key) => {
+                    return {
+                      ...obj, [key]: el[key]
+                    };
+                  }, {})
+            return filteredOrder;
+        })
+
+        const filteredAccaunt = Object.keys(inputData)
+            .filter( key => allowedAccaunt.includes(key) )
+            .reduce((obj, key) => {
+                return {
+                    ...obj, [key]: inputData[key]
+                };
+            }, {})
+
+        const data = Object.assign({}, filteredAccaunt, goods)
+        console.log(data);
+        orderGoodsToServer(data)
+    }
   
     return (
         <Fragment>
-            <section className="cart container catalog">
+            <section className="cart container">
                 <h2 className="text-center">Корзина</h2>
                 <table className="table table-bordered">
                     <thead>
@@ -63,8 +102,6 @@ export default function Cart() {
                                 </tr>
                             </Fragment>)
                         }
-
-
                     </tbody>
                 </table>
             </section>
@@ -74,17 +111,17 @@ export default function Cart() {
                     <form className="card-body">
                         <div className="form-group">
                             <label htmlFor="phone">Телефон</label>
-                            <input className="form-control" id="phone" placeholder="Ваш телефон"/>
+                            <input className="form-control" id="phone" placeholder="Ваш телефон" onChange={handleInputData}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="address">Адрес доставки</label>
-                            <input className="form-control" id="address" placeholder="Адрес доставки"/>
+                            <input className="form-control" id="address" placeholder="Адрес доставки" onChange={handleInputData}/>
                         </div>
                         <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="agreement"/>
-                            <label className="form-check-label" htmlFor="agreement">Согласен с правилами доставки</label>
+                            <input type="checkbox" className="form-check-input" id="agreement" onChange={handleInputData}/>
+                            <label className="form-check-label" htmlFor="agreement" >Согласен с правилами доставки</label>
                         </div>
-                        <button type="submit" className="btn btn-outline-secondary">Оформить</button>
+                        <button type="submit" className="btn btn-outline-secondary" onClick={handleSendData}>Оформить</button>
                     </form>
                 </div>
             </section>

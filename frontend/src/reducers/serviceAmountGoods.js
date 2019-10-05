@@ -1,4 +1,4 @@
-import {ICON_GOODS_IN_CART} from '../actions/actionTypes'
+import { ICON_GOODS_IN_CART } from '../actions/actionTypes'
 const items = JSON.parse(localStorage.getItem("allItems"))
 
 const initialState = {amount: items.length}

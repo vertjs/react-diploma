@@ -1,5 +1,5 @@
-import React, {useEffect, Fragment, useState}  from 'react'
-import {NavLink} from 'react-router-dom'
+import React, { useEffect, Fragment, useState }  from 'react'
+import { NavLink } from 'react-router-dom'
 import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
 

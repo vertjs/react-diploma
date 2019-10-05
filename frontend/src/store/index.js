@@ -9,7 +9,7 @@ import serviceCategoriesReducer from '../reducers/serviceCategories'
 import serviceDataCategories from '../reducers/serviceDataCategories'
 import serviceSearchReducer from '../reducers/serviceSearch'
 import serviceAmountGoodsReducer from '../reducers/serviceAmountGoods'
-
+import serviceSendOrderReducer from '../reducers/serviceSendOrder'
 import thunk from 'redux-thunk'
   
 const reducer = combineReducers({
@@ -17,7 +17,8 @@ const reducer = combineReducers({
     serviceCategories: serviceCategoriesReducer,
     serviceDataCategories: serviceDataCategories,
     serviceSearch: serviceSearchReducer,
-    serviceAmountGoods: serviceAmountGoodsReducer
+    serviceAmountGoods: serviceAmountGoodsReducer,
+    serviceSendOrder: serviceSendOrderReducer
 });
   
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

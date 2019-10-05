@@ -1,4 +1,4 @@
-import React, {Fragment} from 'react'
+import React, { Fragment } from 'react'
 import Bestsellers from './Bestsellers'
 import Catalog from './Catalog'
 

@@ -1,7 +1,7 @@
-import React, {Fragment, useEffect} from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { fetchBestSales } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 export default function Bestsellers() {
     const {items, loading, error} = useSelector(state => state.serviceList);
