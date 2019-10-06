@@ -21,7 +21,7 @@ export default function Catalog() {
         setNum(6)
     }
     
-    function yetClick() {
+    function yetClick() { // загрузить еще
        let sum = parseInt(num)+6
        setNum(() => sum)
        let out = offset + num

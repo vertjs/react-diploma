@@ -8,7 +8,7 @@ export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
     const [data] = useJsonFetch(url, {})
     const [selected, setSelected] = useState(false) // выделение размера
-    const [object, setObject] = useState({amount: 0, size: '', url: ''}) // объект товара
+    const [object, setObject] = useState({count: 0, size: '', url: ''}) // объект товара
     const [mark, setMark] = useState(false) // флаг для стиля кнопки "В корзину"
     const {history} = useReactRouter()
     const dispatch = useDispatch()
@@ -36,7 +36,8 @@ export default function ProductPage({match}) {
                 reason: data.reason,
                 sizes: data.sizes
             })
-        }       
+        }
+
     }, [data])
 
     const handleSelected = (evt) => { // выделить выбранный размер
@@ -50,37 +51,37 @@ export default function ProductPage({match}) {
     }
 
     const handleDecrement = () => { // уменьшить количество товаров в корзине
-        if(object.amount === 0 ) {
+        if(object.count === 0 ) {
             setObject({
                 ...object,
-                amount: 0
+                count: 0
             })
-        } else if(object.amount === 1) {
+        } else if(object.count === 1) {
             setObject({
                 ...object,
-                amount: object.amount - 1
+                count: object.count - 1
             })
             setMark(false)
         }
         else{
             setObject({
                 ...object,
-                amount: object.amount - 1
+                count: object.count - 1
             })
         }
     }
 
     const handleIncrement = () => { // увеличить количество товаров в корзине
-        if(object.amount === 10) {
+        if(object.count === 10) {
             setObject({
                 ...object,
-                amount: 10
+                count: 10
             })
         } else {
             setMark(true)
             setObject({
                 ...object,
-                amount: object.amount + 1
+                count: object.count + 1
             })
         }
     }
@@ -150,7 +151,7 @@ export default function ProductPage({match}) {
                                     <p>Количество: 
                                         <span className="btn-group btn-group-sm pl-2">
                                             <button className="btn btn-secondary" onClick={handleDecrement}>-</button>
-                                            <span className="btn btn-outline-primary">{object.amount}</span>
+                                            <span className="btn btn-outline-primary">{object.count}</span>
                                             <button className="btn btn-secondary" onClick={handleIncrement}>+</button>
                                         </span>
                                     </p>

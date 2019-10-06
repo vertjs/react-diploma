@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { amountGoodsInCart, orderGoodsToServer } from '../actions/actionCreators'
+import { amountGoodsInCart, orderGoodsToServer, iconGoodsInCart } from '../actions/actionCreators'
 
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
     const dispatch = useDispatch()
+    const [mark, setMark] = useState(false) // флаг для стиля кнопки "Оформить"
     const [inputData, setInputData] = useState({
         phone: '',
         address: '',
@@ -28,36 +29,50 @@ export default function Cart() {
 
     const handleInputData = ({target}) => { // данные для оформления заказа
         const {id, value} = target
-        setInputData(prev => ({...prev, [id]: value}))
+        setInputData(prev => ({...prev, [id]: value}))    
+        setMark(true)
     }
 
     const handleSendData = (evt) => { // оформить заказ
         evt.preventDefault()
-        const allowedOrder = ['amount', 'id', 'price']
-        const allowedAccaunt = ['phone', 'address']
+        console.log(arr)
+        console.log(inputData)
+        console.log(mark)
+        if(arr && mark) {
+            const allowedOrder = ['count', 'id', 'price']
+            const allowedAccaunt = ['phone', 'address']
 
-        const goods = arr.map( el => { // заказанные товары
-            let filteredOrder = Object.keys(el)
-                  .filter( key => allowedOrder.includes(key) )
-                  .reduce((obj, key) => {
+            const goods = arr.map( el => { // заказанные товары
+                let filteredOrder = Object.keys(el)
+                    .filter( key => allowedOrder.includes(key) )
+                    .reduce((obj, key) => {
+                        return {
+                            ...obj, [key]: el[key]
+                        };
+                    }, {})
+                return filteredOrder;
+            })
+
+            const filteredAccaunt = Object.keys(inputData) // контакты заказчика
+                .filter( key => allowedAccaunt.includes(key) )
+                .reduce((obj, key) => {
                     return {
-                      ...obj, [key]: el[key]
+                        ...obj, [key]: inputData[key]
                     };
-                  }, {})
-            return filteredOrder;
-        })
+                }, {})
 
-        const filteredAccaunt = Object.keys(inputData)
-            .filter( key => allowedAccaunt.includes(key) )
-            .reduce((obj, key) => {
-                return {
-                    ...obj, [key]: inputData[key]
-                };
-            }, {})
-
-        const data = Object.assign({}, filteredAccaunt, goods)
-        console.log(data);
-        dispatch(orderGoodsToServer(data))
+            const data = Object.assign({}, {'owner': filteredAccaunt}, {'items': goods}) // объединение данных для отправки
+            dispatch(orderGoodsToServer(data))
+            localStorage.clear()
+            setLocalArr([]) // очистка localStorage
+            setInputData({ // очистка state
+                phone: '',
+                address: '',
+                agree: false
+            })
+            dispatch(iconGoodsInCart(0))
+        }
+        return;
     }
   
     return (
@@ -85,9 +100,9 @@ export default function Cart() {
                                             <th scope="row">{id + 1}</th>
                                             <td><NavLink to={'/catalog/' + el.id}>{el.title}</NavLink></td>
                                             <td>{el.size}</td>
-                                            <td>{el.amount}</td>
+                                            <td>{el.count}</td>
                                             <td>{el.price} руб.</td>
-                                            <td>{el.price * el.amount} руб.</td>
+                                            <td>{el.price * el.count} руб.</td>
                                             <td>
                                                 <button className="btn btn-outline-danger btn-sm" 
                                                 onClick={() => handleClearLocalstorage(el)}>Удалить
@@ -111,17 +126,19 @@ export default function Cart() {
                     <form className="card-body">
                         <div className="form-group">
                             <label htmlFor="phone">Телефон</label>
-                            <input className="form-control" id="phone" placeholder="Ваш телефон" onChange={handleInputData}/>
+                            <input className="form-control" id="phone" placeholder="Ваш телефон" onChange={handleInputData} value={inputData.phone}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="address">Адрес доставки</label>
-                            <input className="form-control" id="address" placeholder="Адрес доставки" onChange={handleInputData}/>
+                            <input className="form-control" id="address" placeholder="Адрес доставки" onChange={handleInputData} value={inputData.address}/>
                         </div>
                         <div className="form-group form-check">
                             <input type="checkbox" className="form-check-input" id="agreement" onChange={handleInputData}/>
                             <label className="form-check-label" htmlFor="agreement" >Согласен с правилами доставки</label>
                         </div>
-                        <button type="submit" className="btn btn-outline-secondary" onClick={handleSendData}>Оформить</button>
+                        <button type="submit" className="btn btn-outline-secondary" disabled={mark ? false : true} onClick={handleSendData}>
+                            Оформить
+                        </button>
                     </form>
                 </div>
             </section>

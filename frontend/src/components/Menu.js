@@ -9,7 +9,7 @@ import useReactRouter from 'use-react-router'
 export default function Menu() {
     const dispatch = useDispatch()
     const { history } = useReactRouter()
-    const {amount} = useSelector(state => state.serviceAmountGoods)
+    const { count } = useSelector(state => state.serviceAmountGoods)
 
     const handleChangeIcon = () => { // скрыть/открыть иконку поиска
         const searchFormEl = document.querySelector('[data-id=search-form]')
@@ -24,7 +24,7 @@ export default function Menu() {
         }
     }
 
-    const handleGoCart = () => {
+    const handleGoCart = () => { // перейти в корзину
        history.push('cart')
     }
 
@@ -57,11 +57,11 @@ export default function Menu() {
                                     <div data-id='search-expander' className='header-controls-pic header-controls-search' onClick={handleChangeIcon}></div>
                                     {/*<!-- Do programmatic navigation on click to /cart.html -->*/}
                                     <div className='header-controls-pic header-controls-cart' onClick={handleGoCart}>
-                                        {amount > 0 && (
+                                        {count > 0 && (
                                             <Fragment>
-                                                <div className='header-controls-cart-full'>{amount}</div>
+                                                <div className='header-controls-cart-full'>{count}</div>
                                                 <div className='header-controls-cart-menu'></div>
-                                                </Fragment>
+                                            </Fragment>
                                         )}
                                     </div>
                                 </div>

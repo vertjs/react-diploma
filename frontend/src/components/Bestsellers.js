@@ -11,6 +11,10 @@ export default function Bestsellers() {
       dispatch(fetchBestSales())
     }, [dispatch])
 
+    const handleBuy = (name, item) => { // заказать
+       localStorage.setItem(name, JSON.stringify(item))
+    }
+
     if (loading) {
         return (
             <div className='preloader'>
@@ -41,7 +45,9 @@ export default function Bestsellers() {
                                         <div className="card-body">
                                             <p className="card-text">{o.title.split(' ', 2).join(' ')}</p>
                                             <p className="card-text">{o.price} руб.</p>
-                                            <NavLink to={'/catalog/' + o.id} className='btn btn-outline-primary'>Заказать</NavLink>
+                                            <NavLink to={'/catalog/' + o.id} className='btn btn-outline-primary' onClick={()=> handleBuy(o.id, o)}>
+                                                Заказать
+                                            </NavLink>
                                         </div>
                                     </div>
                                 </div>

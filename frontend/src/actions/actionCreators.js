@@ -103,10 +103,10 @@ export const fetchDataCategoriesSuccess = (data, text) => ({ // успешное
   },
 });
 
-export const iconGoodsInCart = amount => ({ // ошибка принятия данных каталога
+export const iconGoodsInCart = count => ({ // иконка кол-ва товаров в корзине
   type: ICON_GOODS_IN_CART,
   payload: {
-    amount,
+    count,
   },
 });
 
@@ -268,22 +268,19 @@ export const fetchDataProduct = (id) => async (dispatch) => { // данные о
     }
 }
   
-export const amountGoodsInCart = () => (dispatch) => { // кол-во в корзине
-  const items = JSON.parse(localStorage.getItem("allItems"))
-  dispatch(iconGoodsInCart(items.length))
+export const amountGoodsInCart = (count) => (dispatch) => { // кол-во в корзине
+  dispatch(iconGoodsInCart(count.length))
 }
 
 export const orderGoodsToServer = (order) => async (dispatch) => { // отправить заказ
   const orderJson = JSON.stringify(order)
-  console.log(orderJson);
   dispatch(orderGoods(orderJson))
-
   try {
     const response = await fetch(`${process.env.REACT_APP_ORDER_URL}`, {
       method: 'POST',
       'Access-Control-Allow-Origin': '*',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(order),
+      body: orderJson,
     });
     if (!response.ok) {
       throw new Error(response.statusText);
