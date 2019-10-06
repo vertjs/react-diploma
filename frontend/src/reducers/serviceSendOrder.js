@@ -1,16 +1,40 @@
-import { SEND_ORDER_GOODS } from '../actions/actionTypes'
+import { 
+    SEND_ORDER_GOODS,
+    FETCH_DATA_ORDER_SUCCESS,
+    FETCH_DATA_ORDER_FAILURE
 
-const initialState = {order: ''}
+} from '../actions/actionTypes'
+
+const initialState = {
+    order: '',
+    load: false,
+    err: null
+}
 
 export default function serviceSendOrderReducer(state = initialState, action) {
     switch (action.type) {
-        case SEND_ORDER_GOODS:
-        const {order} = action.payload
+      case SEND_ORDER_GOODS:
         return {
         ...state,
-        order
+        load: true,
+        err: null
         };
-        default:
-            return state;
-    } 
+
+      case FETCH_DATA_ORDER_SUCCESS:
+          const {order} = action.payload;
+          return {
+            ...state,
+            order,
+            err: null
+          };
+      case FETCH_DATA_ORDER_FAILURE:
+            const {err} = action.payload;
+            return {
+                ...state,
+                load: false,
+                err,
+            };
+      default:
+        return state;
+} 
 }

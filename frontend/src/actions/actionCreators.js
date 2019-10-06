@@ -13,7 +13,10 @@ import {
 
     FIND_GOODS,
     ICON_GOODS_IN_CART,
-    SEND_ORDER_GOODS
+
+    SEND_ORDER_GOODS,
+    FETCH_DATA_ORDER_SUCCESS,
+    FETCH_DATA_ORDER_FAILURE
 
   } from './actionTypes';
 
@@ -75,6 +78,20 @@ export const fetchDataCategoriesFailure = err => ({ // ошибка принят
   type: FETCH_DATA_CATEGORIES_FAILURE,
   payload: {
     err,
+  },
+});
+
+export const fetchDataOrderFailure = err => ({ // ошибка принятия данных заказа
+  type: FETCH_DATA_ORDER_FAILURE,
+  payload: {
+    err,
+  },
+});
+
+export const fetchDataOrderSuccess = (order) => ({ // успешное принятие данных заказа
+  type: FETCH_DATA_ORDER_SUCCESS,
+  payload: {
+    order
   },
 });
   
@@ -256,9 +273,24 @@ export const amountGoodsInCart = () => (dispatch) => { // кол-во в кор�
   dispatch(iconGoodsInCart(items.length))
 }
 
-export const orderGoodsToServer = (order) => (dispatch) => { // отправить заказ
-  console.log(order);
+export const orderGoodsToServer = (order) => async (dispatch) => { // отправить заказ
   const orderJson = JSON.stringify(order)
   console.log(orderJson);
   dispatch(orderGoods(orderJson))
+
+  try {
+    const response = await fetch(`${process.env.REACT_APP_ORDER_URL}`, {
+      method: 'POST',
+      'Access-Control-Allow-Origin': '*',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(order),
+    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+    dispatch(fetchDataOrderSuccess(order))
+  } catch (error) {
+    console.log(error)
+    dispatch(fetchDataOrderFailure(error.message))
+  }
 }

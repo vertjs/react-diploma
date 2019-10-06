@@ -57,7 +57,7 @@ export default function Cart() {
 
         const data = Object.assign({}, filteredAccaunt, goods)
         console.log(data);
-        orderGoodsToServer(data)
+        dispatch(orderGoodsToServer(data))
     }
   
     return (
