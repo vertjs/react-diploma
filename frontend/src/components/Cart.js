@@ -6,11 +6,11 @@ import { amountGoodsInCart, orderGoodsToServer, iconGoodsInCart } from '../actio
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
     const dispatch = useDispatch()
-    const [mark, setMark] = useState(false) // флаг для стиля кнопки "Оформить"
+    const [disabled, setDisabled] = useState(true)
     const [inputData, setInputData] = useState({
         phone: '',
         address: '',
-        agree: false
+        agreement: false
     })
 
     const handleClearLocalstorage = (el) => { // удалить из карзины
@@ -20,25 +20,26 @@ export default function Cart() {
         localStorage.setItem("allItems", JSON.stringify(items))
         setLocalArr(items)
         dispatch(amountGoodsInCart(items))
+        setDisabled(true)
     }
 
     useEffect(() => {
         const items = JSON.parse(localStorage.getItem("allItems"))
         setLocalArr(items)
+        if(items && items.length > 0) {
+            setDisabled(false)
+        }
     }, [])
 
     const handleInputData = ({target}) => { // данные для оформления заказа
-        const {id, value} = target
-        setInputData(prev => ({...prev, [id]: value}))    
-        setMark(true)
+        const {id, checked} = target
+        const value = target.type === 'checkbox' ? checked : target.value;
+        setInputData(prev => ({...prev, [id]: value}))
     }
 
     const handleSendData = (evt) => { // оформить заказ
         evt.preventDefault()
-        console.log(arr)
-        console.log(inputData)
-        console.log(mark)
-        if(arr && mark) {
+        if(arr) {
             const allowedOrder = ['count', 'id', 'price']
             const allowedAccaunt = ['phone', 'address']
 
@@ -63,8 +64,8 @@ export default function Cart() {
 
             const data = Object.assign({}, {'owner': filteredAccaunt}, {'items': goods}) // объединение данных для отправки
             dispatch(orderGoodsToServer(data))
-            localStorage.clear()
-            setLocalArr([]) // очистка localStorage
+            localStorage.clear() // очистка localStorage
+            setLocalArr([]) 
             setInputData({ // очистка state
                 phone: '',
                 address: '',
@@ -74,7 +75,7 @@ export default function Cart() {
         }
         return;
     }
-  
+
     return (
         <Fragment>
             <section className="cart container">
@@ -113,7 +114,7 @@ export default function Cart() {
                                 )}
                                 <tr>
                                     <td colSpan="5" className="text-right">Общая стоимость</td>
-                                    <td>{arr.reduce((acc, el) => acc + el.price, 0)} руб.</td>
+                                    <td>{arr.reduce((acc, el) => acc + (el.price * el.count), 0)} руб.</td>
                                 </tr>
                             </Fragment>)
                         }
@@ -126,17 +127,18 @@ export default function Cart() {
                     <form className="card-body">
                         <div className="form-group">
                             <label htmlFor="phone">Телефон</label>
-                            <input className="form-control" id="phone" placeholder="Ваш телефон" onChange={handleInputData} value={inputData.phone}/>
+                            <input className="form-control" id="phone" placeholder="Ваш телефон" onChange={handleInputData} value={inputData.phone} disabled={disabled}/>
                         </div>
                         <div className="form-group">
                             <label htmlFor="address">Адрес доставки</label>
-                            <input className="form-control" id="address" placeholder="Адрес доставки" onChange={handleInputData} value={inputData.address}/>
+                            <input className="form-control" id="address" placeholder="Адрес доставки" onChange={handleInputData} value={inputData.address} disabled={disabled}/>
                         </div>
                         <div className="form-group form-check">
-                            <input type="checkbox" className="form-check-input" id="agreement" onChange={handleInputData}/>
+                            <input type="checkbox" className="form-check-input" id="agreement" onChange={handleInputData} checked={inputData.agreement} disabled={disabled}/>
                             <label className="form-check-label" htmlFor="agreement" >Согласен с правилами доставки</label>
                         </div>
-                        <button type="submit" className="btn btn-outline-secondary" disabled={mark ? false : true} onClick={handleSendData}>
+                        <button type="submit" className="btn btn-outline-secondary" onClick={handleSendData}
+                            disabled={!(inputData.phone.length > 0 && inputData.address.length > 0 && inputData.agreement)}  >
                             Оформить
                         </button>
                     </form>
