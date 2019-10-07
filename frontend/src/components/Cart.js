@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import useReactRouter from 'use-react-router'
 import { amountGoodsInCart, orderGoodsToServer, iconGoodsInCart } from '../actions/actionCreators'
 
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
     const dispatch = useDispatch()
+    const {history} = useReactRouter()
     const [disabled, setDisabled] = useState(true)
     const [inputData, setInputData] = useState({
         phone: '',
@@ -21,6 +23,16 @@ export default function Cart() {
         setLocalArr(items)
         dispatch(amountGoodsInCart(items))
         setDisabled(true)
+        
+   
+        if(arr.length === 1) {
+            setInputData({ // очистка state
+                phone: '',
+                address: '',
+                agree: false
+            })
+            localStorage.clear() // очистка localStorage
+        }
     }
 
     useEffect(() => {
@@ -64,13 +76,16 @@ export default function Cart() {
 
             const data = Object.assign({}, {'owner': filteredAccaunt}, {'items': goods}) // объединение данных для отправки
             dispatch(orderGoodsToServer(data))
-            localStorage.clear() // очистка localStorage
-            setLocalArr([]) 
+
             setInputData({ // очистка state
                 phone: '',
                 address: '',
                 agree: false
             })
+
+            localStorage.clear() // очистка localStorage
+           // setLocalArr([]) 
+           history.replace('/success')
             dispatch(iconGoodsInCart(0))
         }
         return;
@@ -138,7 +153,7 @@ export default function Cart() {
                             <label className="form-check-label" htmlFor="agreement" >Согласен с правилами доставки</label>
                         </div>
                         <button type="submit" className="btn btn-outline-secondary" onClick={handleSendData}
-                            disabled={!(inputData.phone.length > 0 && inputData.address.length > 0 && inputData.agreement)}  >
+                            disabled={!(inputData.phone.length > 0 && inputData.address.length > 0 && inputData.agreement)}>
                             Оформить
                         </button>
                     </form>

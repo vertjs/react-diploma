@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from 'react'
 import { fetchBestSales } from '../actions/actionCreators'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import Preloader from './Preloader';
 
 export default function Bestsellers() {
     const {items, loading, error} = useSelector(state => state.serviceList);
@@ -17,12 +18,7 @@ export default function Bestsellers() {
 
     if (loading) {
         return (
-            <div className='preloader'>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+            <Preloader></Preloader>
         );
     }
 

@@ -3,10 +3,11 @@ import useJsonFetch from '../hooks/useJsonFetch'
 import useReactRouter from 'use-react-router'
 import { useDispatch } from 'react-redux'
 import { amountGoodsInCart } from '../actions/actionCreators'
+import Preloader from './Preloader';
 
 export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
-    const [data] = useJsonFetch(url, {})
+    const [data] = useJsonFetch(url, {}) // загрузка данных с сервера
     const [selected, setSelected] = useState(false) // выделение размера
     const [object, setObject] = useState({count: 0, size: '', url: ''}) // объект товара
     const [mark, setMark] = useState(false) // флаг для стиля кнопки "В корзину"
@@ -37,7 +38,6 @@ export default function ProductPage({match}) {
                 sizes: data.sizes
             })
         }
-
     }, [data])
 
     const handleSelected = (evt) => { // выделить выбранный размер
@@ -94,7 +94,6 @@ export default function ProductPage({match}) {
 
         let oldArrItems = JSON.parse(localStorage.getItem('allItems')) || []
         oldArrItems.push(obj)
-       // setArrItems(prev => [...prev, obj])
         localStorage.setItem('allItems', JSON.stringify(oldArrItems))
         dispatch(amountGoodsInCart(oldArrItems))
     }
@@ -107,7 +106,7 @@ export default function ProductPage({match}) {
                     <div className="row">
                         <div className="col-5">
                             <img src={form.image}
-                                className="img-fluid" alt={form.title}/>
+                                className="img-fluid" alt={form.title}/>{console.log(form.image)}
                         </div>
                         <div className="col-7">
                             <table className="table table-bordered">
@@ -162,6 +161,7 @@ export default function ProductPage({match}) {
                     </div> 
                 </section>
             }
+            {!data.id && <Preloader></Preloader>}
         </Fragment>
     )        
 }

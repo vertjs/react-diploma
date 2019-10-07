@@ -6,8 +6,7 @@ export default function useJsonFetch(url, initial) {
     useEffect(() => {
         fetch(url)
             .then(response => response.json())
-            .then(response => setData(response) //setData(prev => [...prev, response])
-            )
+            .then(response => setData(response))
             
     }, [url])
     return [data];
