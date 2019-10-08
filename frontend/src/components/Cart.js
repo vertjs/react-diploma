@@ -24,7 +24,6 @@ export default function Cart() {
         dispatch(amountGoodsInCart(items))
         setDisabled(true)
         
-   
         if(arr.length === 1) {
             setInputData({ // очистка state
                 phone: '',
@@ -84,8 +83,7 @@ export default function Cart() {
             })
 
             localStorage.clear() // очистка localStorage
-           // setLocalArr([]) 
-           history.replace('/success')
+            history.replace('/success')
             dispatch(iconGoodsInCart(0))
         }
         return;

@@ -104,7 +104,18 @@ export default function ProductPage({match}) {
         let obj = Object.assign({}, objItems, object)
 
         let oldArrItems = JSON.parse(localStorage.getItem('allItems')) || []
-        oldArrItems.push(obj)
+       
+        if(oldArrItems.length > 0) {
+            let objFind = oldArrItems.filter(o => o.id === obj.id && o.size === obj.size )
+            if(objFind.length > 0) {
+                objFind[0].count= objFind[0].count + obj.count
+            } else {
+                oldArrItems.push(obj)
+            }
+        } else {
+            oldArrItems.push(obj)
+        }
+        
         localStorage.setItem('allItems', JSON.stringify(oldArrItems))
         dispatch(amountGoodsInCart(oldArrItems))
     }

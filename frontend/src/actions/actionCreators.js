@@ -196,9 +196,7 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      const data = await response.json();
-      console.log(data);
-      console.log(text);
+      const data = await response.json()
       dispatch(fetchDataCategoriesSuccess(data));
     } catch (error) {
       console.log(error);
@@ -212,8 +210,6 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
         throw new Error(response.statusText);
       }
       const data = await response.json();
-      console.log(data);
-      console.log(text);
       dispatch(fetchDataCategoriesSuccess(data, text));
     } catch (error) {
       console.log(error);

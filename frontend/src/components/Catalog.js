@@ -38,7 +38,6 @@ export default function Catalog() {
         localStorage.setItem(name, JSON.stringify(item))
     }
 
-
     if (loading) {
         return (
             <div className='preloader'>
