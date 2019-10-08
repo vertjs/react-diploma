@@ -55,6 +55,10 @@ export default function Catalog() {
         return <p>Something went wrong try again</p>;
     }
 
+    const addDefaultSrc = ({target}) => {
+        target.src='http://svetgorod.ru/_img_articles/310/1.jpg'
+    }
+
     return (
         <Fragment>
             <ul className='catalog-categories nav justify-content-center'>
@@ -67,13 +71,14 @@ export default function Catalog() {
                     </li>
                 ))}
             </ul>
-            {data && 
+            {data && data.length > 0 && 
                 (<Fragment>
                     <div className='row'>
                         {data.map(o => (
                             <div className='col-4' key={o.id} >
                                 <div className='card catalog-item-card' >
-                                    <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} style={{ width: '90%', height: 200, objectFit: 'cover' }}/>
+                                    <img src={o.images[0]} className='card-img-top img-fluid' alt={o.title} 
+                                        style={{ width: '90%', height: 200, objectFit: 'cover' }} onError={addDefaultSrc} />
                                     <div className='card-body'>
                                         <p className='card-text'>{o.title}</p>
                                         <p className='card-text'>{o.price} руб.</p>
@@ -91,6 +96,15 @@ export default function Catalog() {
                     </div>}
                 </Fragment>)
             }
+            {loading && 
+                (<div className='preloader'>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>)
+            }
+            {error && (<p>Something went wrong try again</p>)}
         </Fragment>
     );
 }

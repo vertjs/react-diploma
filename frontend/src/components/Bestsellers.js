@@ -24,7 +24,7 @@ export default function Bestsellers() {
 
     if (error) {
         console.log(error);
-        return <p>Something went wrong try again</p>;
+        return <p className='text-center'>Something went wrong try again</p>;
     }
 
     return (

@@ -7,7 +7,8 @@ import Preloader from './Preloader';
 
 export default function ProductPage({match}) {
     const url = process.env.REACT_APP_DATA_CATEGORIES_URL + '/' + match.params.id
-    const [data] = useJsonFetch(url, {}) // загрузка данных с сервера
+
+    const [{data, loading, error}] = useJsonFetch(url) // загрузка данных с сервера
     const [selected, setSelected] = useState(false) // выделение размера
     const [object, setObject] = useState({count: 0, size: '', url: ''}) // объект товара
     const [mark, setMark] = useState(false) // флаг для стиля кнопки "В корзину"
@@ -39,6 +40,16 @@ export default function ProductPage({match}) {
             })
         }
     }, [data])
+
+    if (loading) {
+        return (
+            <Preloader></Preloader>
+        );
+    }
+    if (error) {
+        console.log(error);
+        return <p>Something went wrong try again</p>;
+    }
 
     const handleSelected = (evt) => { // выделить выбранный размер
         setSelected(!selected)
@@ -98,6 +109,10 @@ export default function ProductPage({match}) {
         dispatch(amountGoodsInCart(oldArrItems))
     }
 
+    const addDefaultSrc = ({target}) => {
+        target.src='http://svetgorod.ru/_img_articles/310/1.jpg'
+    }
+
     return (
         <Fragment>
             {form.title !== undefined &&
@@ -105,8 +120,8 @@ export default function ProductPage({match}) {
                     <h2 className="text-center">{form.title}</h2>
                     <div className="row">
                         <div className="col-5">
-                            <img src={form.image}
-                                className="img-fluid" alt={form.title}/>{console.log(form.image)}
+                            <img src={form.image} className="img-fluid" alt={form.title}
+                                onError={addDefaultSrc} />
                         </div>
                         <div className="col-7">
                             <table className="table table-bordered">
@@ -161,7 +176,6 @@ export default function ProductPage({match}) {
                     </div> 
                 </section>
             }
-            {!data.id && <Preloader></Preloader>}
         </Fragment>
     )        
 }
