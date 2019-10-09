@@ -1,6 +1,6 @@
 import React from 'react'
 import {  useSelector, useDispatch } from 'react-redux'
-import { searchGoods } from '../actions/actionCreators'
+import { searchGoods } from '../actions/actionFunc'
 
 
 export default function Find() {

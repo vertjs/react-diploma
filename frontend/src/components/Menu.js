@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import banner from '../img/banner.jpg'
 import headerLogo from '../img/header-logo.png'
 import { NavLink } from 'react-router-dom'
-import { searchGoods } from '../actions/actionCreators'
+import { searchGoods } from '../actions/actionFunc'
 import { useSelector, useDispatch } from 'react-redux'
 import useReactRouter from 'use-react-router'
 

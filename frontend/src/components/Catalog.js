@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState }  from 'react'
 import { NavLink } from 'react-router-dom'
-import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionCreators'
+import { fetchCategories, fetchDataCategories, searchGoods } from '../actions/actionFunc'
 import { useSelector, useDispatch } from 'react-redux'
 
 

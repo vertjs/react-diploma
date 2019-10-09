@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { fetchBestSales } from '../actions/actionCreators'
+import { fetchBestSales } from '../actions/actionFunc'
 import { useSelector, useDispatch } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import Preloader from './Preloader';

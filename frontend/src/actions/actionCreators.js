@@ -110,6 +110,8 @@ export const iconGoodsInCart = count => ({ // иконка кол-ва това�
   },
 });
 
+/*
+
 export const fetchBestSales = () => async (dispatch) => { // получение с сервера хитов продаж
   dispatch(fetchServicesRequest())
   try {
@@ -235,7 +237,6 @@ export const fetchDataCategories = (id=false, offset=false, text=false) => async
 
 export const searchGoods = (text) => async (dispatch) => {
   dispatch(findGoods(text))
-
   try {
     const response = await fetch(`${process.env.REACT_APP_FIND_GOODS_URL + text}`)
     if (!response.ok) {
@@ -243,7 +244,6 @@ export const searchGoods = (text) => async (dispatch) => {
     }
     const data = await response.json()
     dispatch(fetchDataCategoriesSuccess(data))
- 
   } catch (error) {
     dispatch(fetchDataCategoriesSuccess(error.message))
   }
@@ -287,3 +287,4 @@ export const orderGoodsToServer = (order) => async (dispatch) => { // отпра
     dispatch(fetchDataOrderFailure(error.message))
   }
 }
+*/

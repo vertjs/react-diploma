@@ -2,7 +2,8 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import useReactRouter from 'use-react-router'
-import { amountGoodsInCart, orderGoodsToServer, iconGoodsInCart } from '../actions/actionCreators'
+import { amountGoodsInCart, orderGoodsToServer } from '../actions/actionFunc'
+import { iconGoodsInCart } from '../actions/actionCreators'
 
 export default function Cart() {
     const [arr, setLocalArr] = useState([])
